@@ -1,4 +1,5 @@
 raylib/
+build/
 compil.bat
 commande.txt
 test.exe

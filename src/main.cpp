@@ -7,7 +7,7 @@
 int main()
 {
     InitWindow(1024, 576, "Leaf Project");
-    Ccolors ccolors;
+    Cameraz mainCamera;
     createLevels(mainCamera);
 
     while (!WindowShouldClose())

@@ -14,4 +14,6 @@
         Color brown = {124, 104, 68, 255};
     };
 
+    extern Ccolors ccolors;
+
 #endif

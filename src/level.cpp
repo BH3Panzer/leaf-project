@@ -16,7 +16,6 @@ void Level::drawLevel()
 }
 
 Level level1;
-struct Ccolors ccolors;
 
 void createLevels(Cameraz &cam)
 {

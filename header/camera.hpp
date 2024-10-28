@@ -8,6 +8,4 @@
         int scale = 32;
     };
 
-    extern Cameraz mainCamera;
-
 #endif
