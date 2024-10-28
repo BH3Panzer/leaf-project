@@ -1,12 +1,13 @@
 #ifndef CAMERA
-#define CAMERA
+    #define CAMERA
 
-struct Cameraz {
-    float x = 0;
-    float y = 0;
-    int scale = 32;
-};
+    struct Cameraz
+    {
+        float x = 0;
+        float y = 0;
+        int scale = 32;
+    };
 
-extern Cameraz mainCamera;
+    extern Cameraz mainCamera;
 
 #endif

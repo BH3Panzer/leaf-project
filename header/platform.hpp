@@ -1,21 +1,21 @@
 #ifndef PLATFORM
-#define PLATFORM
-#include "../raylib/raylib.h"
-#include "../header/colors.hpp"
-#include "../header/camera.hpp"
+    #define PLATFORM
 
-class Platform {
-    private:
-    Rectangle rect;
-    Color col;
-    Cameraz cam;
+    #include "../header/colors.hpp"
+    #include "../header/camera.hpp"
 
-    public:
-    void drawPlatform();
-    Rectangle getRectangle();
-    void setRectangle(Rectangle rect);
-    Platform(Rectangle rect, Color col, Cameraz &cam);
-};
+    class Platform
+    {
+        private:
+            Rectangle rect;
+            Color col;
+            Cameraz cam;
 
+        public:
+            Rectangle getRectangle();
+            void setRectangle(Rectangle rect);
+            void drawPlatform();
+            Platform(Rectangle rect, Color col, Cameraz &cam);
+    };
 
 #endif

@@ -4,11 +4,14 @@
 #include "../header/level.hpp"
 #include "../header/camera.hpp"
 
-int main() {
+int main()
+{
     InitWindow(1024, 576, "Leaf Project");
-    struct Ccolors ccolors;
+    Ccolors ccolors;
     createLevels(mainCamera);
-    while (!WindowShouldClose()) {
+
+    while (!WindowShouldClose())
+    {
         BeginDrawing();
         ClearBackground(ccolors.blue);
         level1.drawLevel();
