@@ -13,7 +13,9 @@
 
         public:
             Rectangle getRectangle();
+            Color getColor();
             void setRectangle(Rectangle rect);
+            void setColor(Color col);
             void drawPlatform();
             Platform(Rectangle rect, Color col, Cameraz &cam);
     };

@@ -12,9 +12,18 @@ Rectangle Platform::getRectangle()
     return this->rect;
 }
 
+Color Platform::getColor() {
+    return this->col;
+}
+
 void Platform::setRectangle(Rectangle rect)
 {
     this->rect = rect;
+    return;
+}
+
+void Platform::setColor(Color col) {
+    this->col = col;
     return;
 }
 
