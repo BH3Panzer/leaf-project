@@ -12,12 +12,13 @@
             Cameraz cam;
 
         public:
+            Platform(Rectangle rect, Color col, Cameraz &cam);
+            void drawPlatform();
             Rectangle getRectangle();
             Color getColor();
             void setRectangle(Rectangle rect);
             void setColor(Color col);
-            void drawPlatform();
-            Platform(Rectangle rect, Color col, Cameraz &cam);
+
     };
 
 #endif
