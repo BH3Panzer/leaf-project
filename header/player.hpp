@@ -1,6 +1,5 @@
 #ifndef PLAYER
     #define PLAYER
-
     #include "../header/level.hpp"
 
     class Player
@@ -26,6 +25,7 @@
             void addMana(int q);
             void subMana(int q);
             void manaDebugTest();
+            Rectangle getRect();
     };
 
 #endif

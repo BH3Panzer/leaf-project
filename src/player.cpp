@@ -235,3 +235,7 @@ void Player::manaDebugTest() {
     }
 }
 
+Rectangle Player::getRect() {
+    return this->rect;
+}
+

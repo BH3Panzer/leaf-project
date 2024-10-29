@@ -11,21 +11,22 @@ int main()
 {
     InitWindow(1024, 576, "Leaf Project");
     InitAudioDevice();
-    Music mainMusic = LoadMusicStream("music/main.mp3");
+    // Music mainMusic = LoadMusicStream("music/main.mp3");
     SetTargetFPS(60);
 
     Cameraz mainCamera;
     createLevels(&mainCamera);
     float delta{};
     Player player{&mainCamera, &delta};
-    PlayMusicStream(mainMusic);
+    // PlayMusicStream(mainMusic);
 
-    Bar manaBar(20, player.getMana(), ccolors.lightGreen, ccolors.white, {15, 15, 300, 25}, mainCamera);
+    Bar manaBar(20, player.getMana(), ccolors.lightGreen, ccolors.white, {15, 15, 300, 25}, &mainCamera);
     while (!WindowShouldClose())
     {
         delta = GetFrameTime();
         player.movement(level1.getPlatforms());
         player.manaDebugTest(); //Comment to deactivate debug of mana and modification
+        cameraFollowPlayer(&mainCamera, &player);
         BeginDrawing();
         ClearBackground(ccolors.blue);
         level1.drawLevel();
@@ -33,7 +34,7 @@ int main()
         manaBar.setCurrent(player.getMana());
         manaBar.draw();
         EndDrawing();
-        UpdateMusicStream(mainMusic);
+        // UpdateMusicStream(mainMusic);
     }
     CloseWindow();
     return 0;

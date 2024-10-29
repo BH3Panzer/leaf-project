@@ -1,6 +1,6 @@
 #include "../header/guiBar.hpp"
 
-Bar::Bar(int max, int current, Color col, Color borderCol, Rectangle rect, Cameraz &cam) {
+Bar::Bar(int max, int current, Color col, Color borderCol, Rectangle rect, Cameraz* cam) {
     this->max = max;
     this->current = current;
     this->col = col;

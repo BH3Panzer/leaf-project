@@ -2,7 +2,7 @@
     #define LEVEL
 
     #include "../header/platform.hpp"
-    #include "../header/camera.hpp"
+
     #include <vector>
 
     class Level

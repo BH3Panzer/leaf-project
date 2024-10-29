@@ -9,10 +9,10 @@
         Color col;
         Color borderCol;
         Rectangle rect;
-        Cameraz cam;
+        Cameraz* cam;
 
     public:
-        Bar(int max, int current, Color col, Color borderCol, Rectangle rect, Cameraz &cam);
+        Bar(int max, int current, Color col, Color borderCol, Rectangle rect, Cameraz* cam);
         int getMax();
         int getCurrent();
         Color getColor();
