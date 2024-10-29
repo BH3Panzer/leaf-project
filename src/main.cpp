@@ -11,7 +11,7 @@ int main()
 {
     InitWindow(1024, 576, "Leaf Project");
     InitAudioDevice();
-    Music mainMusic = LoadMusicStream("../music/main.mp3");
+    Music mainMusic = LoadMusicStream("music/main.mp3");
     SetTargetFPS(60);
     Cameraz mainCamera;
     createLevels(mainCamera);
