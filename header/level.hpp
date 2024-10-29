@@ -8,11 +8,12 @@
     class Level
     {
         private:
-            std::vector<Platform> platformes;
+            std::vector<Platform> platforms;
 
         public:
             void addPlatform(Platform plat);
             void drawLevel();
+            std::vector<Platform> getPlatforms();
     };
 
     extern Level level1;
