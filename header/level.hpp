@@ -17,6 +17,6 @@
     };
 
     extern Level level1;
-    void createLevels(Cameraz &cam);
+    void createLevels(Cameraz* cam);
 
 #endif

@@ -9,10 +9,10 @@
         private:
             Rectangle rect;
             Color col;
-            Cameraz cam;
+            Cameraz* cam;
 
         public:
-            Platform(Rectangle rect, Color col, Cameraz &cam);
+            Platform(Rectangle rect, Color col, Cameraz* cam);
             void drawPlatform();
             Rectangle getRectangle();
             Color getColor();

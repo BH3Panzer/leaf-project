@@ -8,14 +8,14 @@
         private:
             Rectangle rect = {5, 5, 12 * 3, 16 * 3}; // rectangle de collision
             Vector2 vel = {0, 0};
-            Cameraz cam;
+            Cameraz* cam;
             float* delta;
-            Vector2 velMax = {1000, 1000};
-            Vector2 acceleration = {3000, 400};
-            int jump = 100;
+            Vector2 velMax = {600, 2000};
+            Vector2 acceleration = {6000, 3000};
+            int jump = 900;
 
         public:
-            Player(Cameraz &cam, float* delta);
+            Player(Cameraz* cam, float* delta);
             int detectCollision(std::vector<Platform>& platforms, bool horizontal = true) const;
             bool isOnFloor(std::vector<Platform>& platforms);
             void movement(std::vector<Platform> platforms);
