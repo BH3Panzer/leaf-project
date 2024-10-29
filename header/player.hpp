@@ -13,6 +13,7 @@
             Vector2 velMax = {1000, 1000};
             Vector2 acceleration = {3000, 400};
             int jump = 100;
+            int mana = 20;
 
         public:
             Player(Cameraz &cam, float* delta);
@@ -20,6 +21,11 @@
             bool isOnFloor(std::vector<Platform>& platforms);
             void movement(std::vector<Platform> platforms);
             void drawPlayer();
+            int getMana();
+            void setMana(int mana);
+            void addMana(int q);
+            void subMana(int q);
+            void manaDebugTest();
     };
 
 #endif

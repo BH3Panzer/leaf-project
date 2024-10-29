@@ -38,6 +38,6 @@ void Bar::setCurrent(int current) {
 }
 
 void Bar::draw() {
-    DrawRectangle(this->rect.x*this->cam.scale, this->rect.y*this->cam.scale, this->rect.width*this->cam.scale, this->rect.height*this->cam.scale, this->borderCol);
-    DrawRectangle(this->rect.x*this->cam.scale + 1*this->cam.scale, this->rect.y*this->cam.scale + 1*this->cam.scale, this->current*this->rect.width/this->max*this->cam.scale - 2*this->cam.scale, this->rect.height*this->cam.scale - 2*this->cam.scale, this->col);
+    DrawRectangle(this->rect.x, this->rect.y, this->rect.width, this->rect.height, this->borderCol);
+    DrawRectangle(this->rect.x + 5, this->rect.y + 5, this->current*this->rect.width/this->max - 10, this->rect.height - 10, this->col);
 }

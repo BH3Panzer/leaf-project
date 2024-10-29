@@ -1,4 +1,6 @@
 #include "../header/player.hpp"
+#include "../raylib/raylib.h"
+#include <cstdlib>
 #include <iostream>
 
 Player::Player(Cameraz &cam, float* delta): cam(cam), delta(delta)
@@ -89,7 +91,6 @@ bool Player::isOnFloor(std::vector<Platform>& platforms)
 void Player::movement(std::vector<Platform> platforms)
 {
     const bool isOnFloor = this->isOnFloor(platforms);
-    std::cout << isOnFloor << std::endl;
 
     if (IsKeyDown(KEY_A))
     {
@@ -188,3 +189,51 @@ void Player::drawPlayer()
     DrawRectangle(this->rect.x - this->cam.x, this->rect.y - this->cam.y, this->rect.width, this->rect.height, RED);
     return;
 }
+
+int Player::getMana() {
+    return this->mana;
+}
+
+void Player::setMana(int mana) {
+    if (mana >= 20) {
+        this->mana = 20;
+    }
+    else if (mana <= 0) {
+        this->mana = 0;
+    }
+    else {
+        this->mana = mana;
+    }
+}
+
+void Player::addMana(int q) {
+    if (this->mana + q >= 20) {
+        this->mana = 20;
+    }
+    else {
+        this->mana+=q;
+    }
+}
+
+void Player::subMana(int q) {
+    if (this->mana - q <= 0) {
+        this->mana = 0;
+    }
+    else {
+        this->mana-=q;
+    }
+}
+
+void Player::manaDebugTest() {
+    if (IsKeyPressed(KEY_EIGHT)) {
+        this->addMana(1);
+        std::cout << this->mana << std::endl;
+
+    }
+    else if (IsKeyPressed(KEY_TWO)) {
+        this->subMana(2);
+        std::cout << this->mana << std::endl;
+
+    }
+}
+
