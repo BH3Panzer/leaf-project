@@ -1,9 +1,7 @@
 #include "../header/player.hpp"
-#include "../raylib/raylib.h"
-#include <cstdlib>
 #include <iostream>
 
-Player::Player(Cameraz &cam, float* delta): cam(cam), delta(delta)
+Player::Player(Cameraz* cam, float* delta): cam(cam), delta(delta)
 {
 }
 
@@ -80,7 +78,7 @@ bool Player::isOnFloor(std::vector<Platform>& platforms)
 	for (auto& platform : platforms)
 	{
         const Rectangle pRect{platform.getRectangle()};
-		if ((int)(this->rect.y + this->rect.height + 1) == pRect.y && this->rect.x < (pRect.x + pRect.width) && (this->rect.x + this->rect.width) > pRect.x)
+		if ((int)(this->rect.y + this->rect.height) == pRect.y && this->rect.x < (pRect.x + pRect.width) && (this->rect.x + this->rect.width) > pRect.x)
 		{
 			return true;
 		}
@@ -150,7 +148,7 @@ void Player::movement(std::vector<Platform> platforms)
     }
 
 
-    if (isOnFloor)
+    if (isOnFloor && this->vel.y == 0)
     {
         if (IsKeyDown(KEY_SPACE))
         {
@@ -186,7 +184,7 @@ void Player::movement(std::vector<Platform> platforms)
 
 void Player::drawPlayer()
 {
-    DrawRectangle(this->rect.x - this->cam.x, this->rect.y - this->cam.y, this->rect.width, this->rect.height, RED);
+    DrawRectangle(this->rect.x - (*this->cam).x, this->rect.y - (*this->cam).y, this->rect.width, this->rect.height, RED);
     return;
 }
 

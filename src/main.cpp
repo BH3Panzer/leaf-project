@@ -11,15 +11,13 @@ int main()
 {
     InitWindow(1024, 576, "Leaf Project");
     InitAudioDevice();
-
     Music mainMusic = LoadMusicStream("music/main.mp3");
     SetTargetFPS(60);
 
     Cameraz mainCamera;
-    createLevels(mainCamera);
-
+    createLevels(&mainCamera);
     float delta{};
-    Player player{mainCamera, &delta};
+    Player player{&mainCamera, &delta};
     PlayMusicStream(mainMusic);
 
     Bar manaBar(20, player.getMana(), ccolors.lightGreen, ccolors.white, {15, 15, 300, 25}, mainCamera);

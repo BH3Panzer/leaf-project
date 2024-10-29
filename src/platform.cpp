@@ -1,6 +1,6 @@
 #include "../header/platform.hpp"
 
-Platform::Platform(Rectangle rect, Color col, Cameraz &cam)
+Platform::Platform(Rectangle rect, Color col, Cameraz* cam)
 {
     this->rect = rect;
     this->col = col;
@@ -29,6 +29,6 @@ void Platform::setColor(Color col) {
 
 void Platform::drawPlatform()
 {
-    DrawRectangle(this->rect.x - this->cam.x, this->rect.y - this->cam.y, this->rect.width, this->rect.height, this->col);
+    DrawRectangle(this->rect.x - (*this->cam).x, this->rect.y - (*this->cam).y, this->rect.width, this->rect.height, this->col);
     return;
 }
