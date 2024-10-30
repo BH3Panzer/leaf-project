@@ -14,7 +14,7 @@ Game introduce into connected nature, we can modify fastly the nature to finish 
 - Move, jump and climb
 
 ## Controls:
-Keyboard only:
+Keyboard only.
     - WASD or ZQSD (depend on your keyboard)
     - Space to jump
     - Enter to interact with mother nature
