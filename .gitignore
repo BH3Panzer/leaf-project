@@ -1,5 +1,6 @@
 raylib/
 build/
+imageConverter/
 compil.bat
 commande.txt
 test.exe

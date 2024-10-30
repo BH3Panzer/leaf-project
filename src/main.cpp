@@ -5,7 +5,7 @@
 #include "../header/camera.hpp"
 #include "../header/guiBar.hpp"
 #include "../header/player.hpp"
-
+#include "../header/imageImportation.hpp"
 
 int main()
 {
@@ -16,7 +16,8 @@ int main()
     Cameraz mainCamera;
     createLevels(&mainCamera);
     float delta{};
-    Player player{&mainCamera, &delta};
+
+    Player player{&mainCamera, &delta, ImageCopy(caractere)};
     PlayMusicStream(mainMusic);
     while (!WindowShouldClose())
     {

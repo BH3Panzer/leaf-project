@@ -1,7 +1,14 @@
 #include "../header/player.hpp"
-
-Player::Player(Cameraz* cam, float* delta): cam(cam), delta(delta)
+#include <iostream>
+Player::Player(Cameraz* cam, float* delta, Image sprite, int scale): cam(cam), delta(delta), scale(scale)
 {
+    this->rect = {5, 5, (float)(12 * scale), (float)(16 * scale)};
+    std::cout << "1" << std::endl;
+    std::cout << sprite.data << std::endl;
+    ImageResizeNN(&sprite, (int)(16 * scale), (int)(16 * scale));
+    std::cout << "2" << std::endl;
+    this->sprite = LoadTextureFromImage(sprite);
+    std::cout << "3" << std::endl;
 }
 
 int Player::detectCollision(std::vector<Platform>& platforms, bool horizontal) const
@@ -183,6 +190,7 @@ void Player::movement(std::vector<Platform> platforms)
 
 void Player::drawPlayer()
 {
-    DrawRectangle(this->rect.x - (*this->cam).x, this->rect.y - (*this->cam).y, this->rect.width, this->rect.height, RED);
+    //DrawRectangle(this->rect.x - (*this->cam).x, this->rect.y - (*this->cam).y, this->rect.width, this->rect.height, RED);
+    DrawTexture(this->sprite, this->rect.x - (*this->cam).x - this->scale * 2, this->rect.y - (*this->cam).y, WHITE);
     return;
 }

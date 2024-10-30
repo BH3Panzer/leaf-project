@@ -6,16 +6,18 @@
     class Player
     {
         private:
-            Rectangle rect = {5, 5, 12 * 3, 16 * 3}; // rectangle de collision
+            Rectangle rect; // rectangle de collision
             Vector2 vel = {0, 0};
             Cameraz* cam;
             float* delta;
             Vector2 velMax = {600, 2000};
             Vector2 acceleration = {6000, 3000};
             int jump = 900;
+            Texture2D sprite;
+            int scale;
 
         public:
-            Player(Cameraz* cam, float* delta);
+            Player(Cameraz* cam, float* delta, Image sprite, int scale = 3);
             int detectCollision(std::vector<Platform>& platforms, bool horizontal = true) const;
             bool isOnFloor(std::vector<Platform>& platforms);
             void movement(std::vector<Platform> platforms);
