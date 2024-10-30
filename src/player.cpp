@@ -11,7 +11,7 @@ Player::Player(Cameraz* cam, float* delta, Image sprite, Image spriteRun, Image 
     this->spriteRun.s = LoadTextureFromImage(spriteRun);
     ImageFlipHorizontal(&spriteRun);
     this->spriteRun.rs = LoadTextureFromImage(spriteRun);
-    ImageResizeNN(&spriteJump, (int)(16 * scale), (int)(18 * scale));
+    ImageResizeNN(&spriteJump, (int)(16 * scale), (int)(54 * scale));
     this->spriteJump.s = LoadTextureFromImage(spriteJump);
     ImageFlipHorizontal(&spriteJump);
     this->spriteJump.rs = LoadTextureFromImage(spriteJump);
@@ -241,7 +241,16 @@ void Player::drawPlayer()
 
     if (this->vel.y != 0)
     {
-        DrawTexture(*sprites[2], this->rect.x - (*this->cam).x - this->scale * 2, this->rect.y - (*this->cam).y - this->scale * 2, WHITE);
+        Rectangle rectAnimJump{0, 0, (float)(16 * this->scale), (float)(18 * this->scale)};
+        if (-150 < this->vel.y && this->vel.y < 150)
+        {
+            rectAnimJump.y = (float)(18 * this->scale);
+        }
+        else if (this->vel.y >= 150)
+        {
+            rectAnimJump.y = (float)(36 * this->scale);
+        }
+        DrawTextureRec(*sprites[2], rectAnimJump, {this->rect.x - (*this->cam).x - this->scale * 2, this->rect.y - (*this->cam).y - this->scale * 2}, WHITE);
     }
     else if (this->vel.x != 0)
     {
