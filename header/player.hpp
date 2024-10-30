@@ -14,10 +14,9 @@
             Vector2 acceleration = {6000, 3000};
             int jump = 900;
             Texture2D sprite;
-            int scale;
 
         public:
-            Player(Cameraz* cam, float* delta, Image sprite, int scale = 3);
+            Player(Cameraz* cam, float* delta, Image sprite);
             int detectCollision(std::vector<Platform>& platforms, bool horizontal = true) const;
             bool isOnFloor(std::vector<Platform>& platforms);
             void movement(std::vector<Platform> platforms);
@@ -28,6 +27,8 @@
             void subMana(int q);
             void manaDebugTest();
             Rectangle getRect();
+            Vector2 getVel();
+            Vector2 getVelMax();
     };
 
 #endif

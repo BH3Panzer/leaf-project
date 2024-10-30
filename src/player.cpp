@@ -1,11 +1,11 @@
 #include "../header/player.hpp"
 #include <iostream>
-Player::Player(Cameraz* cam, float* delta, Image sprite, int scale): cam(cam), delta(delta), scale(scale)
+Player::Player(Cameraz* cam, float* delta, Image sprite): cam(cam), delta(delta)
 {
-    this->rect = {5, 5, (float)(12 * scale), (float)(16 * scale)};
+    this->rect = {5, 5, (float)(12 * this->cam->scale), (float)(16 * this->cam->scale)};
     std::cout << "1" << std::endl;
     std::cout << sprite.data << std::endl;
-    ImageResizeNN(&sprite, (int)(16 * scale), (int)(16 * scale));
+    ImageResizeNN(&sprite, (int)(16 * this->cam->scale), (int)(16 * this->cam->scale));
     std::cout << "2" << std::endl;
     this->sprite = LoadTextureFromImage(sprite);
     std::cout << "3" << std::endl;
@@ -191,7 +191,7 @@ void Player::movement(std::vector<Platform> platforms)
 void Player::drawPlayer()
 {
     //DrawRectangle(this->rect.x - (*this->cam).x, this->rect.y - (*this->cam).y, this->rect.width, this->rect.height, RED);
-    DrawTexture(this->sprite, this->rect.x - (*this->cam).x - this->scale * 2, this->rect.y - (*this->cam).y, WHITE);
+    DrawTexture(this->sprite, this->rect.x - (*this->cam).x - this->cam->scale * 2, this->rect.y - (*this->cam).y, WHITE);
     return;
 }
 
@@ -232,12 +232,12 @@ void Player::subMana(int q) {
 void Player::manaDebugTest() {
     if (IsKeyPressed(KEY_EIGHT)) {
         this->addMana(1);
-        std::cout << this->mana << std::endl;
+        std::cout << "mana: " << this->mana << std::endl;
 
     }
     else if (IsKeyPressed(KEY_TWO)) {
         this->subMana(2);
-        std::cout << this->mana << std::endl;
+        std::cout << "mana: " << this->mana << std::endl;
 
     }
 }
@@ -246,3 +246,10 @@ Rectangle Player::getRect() {
     return this->rect;
 }
 
+Vector2 Player::getVel() {
+    return this->vel;
+}
+
+Vector2 Player::getVelMax() {
+    return this->velMax;
+}

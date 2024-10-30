@@ -27,8 +27,10 @@ int main()
     {
         delta = GetFrameTime();
         player.movement(level1.getPlatforms());
-        player.manaDebugTest(); //Comment to deactivate debug of mana and modification
+        player.manaDebugTest(); // Comment to deactivate debug of mana and modification
+        cameraDebugTest(&mainCamera); // Comment to deactivate debug of camera scale
         cameraFollowPlayer(&mainCamera, &player);
+        cameraMove(&mainCamera, delta);
         BeginDrawing();
         ClearBackground(ccolors.blue);
         level1.drawLevel();
