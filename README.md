@@ -15,9 +15,9 @@ Game introduce into connected nature, we can modify fastly the nature to finish 
 
 ## Controls:
 Keyboard only.
-    - WASD or ZQSD (depend on your keyboard)
-    - Space to jump
-    - Enter to interact with mother nature
+- WASD or ZQSD (depend on your keyboard)
+- Space to jump
+- Enter to interact with mother nature
 
 ## Developers:
     - BH3Panzer (repo owner), dev, music
