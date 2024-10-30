@@ -5,22 +5,24 @@
 #include "../header/camera.hpp"
 #include "../header/guiBar.hpp"
 #include "../header/player.hpp"
-
+#include "../header/imageImportation.hpp"
 
 int main()
 {
     InitWindow(1024, 576, "Leaf Project");
     InitAudioDevice();
-    // Music mainMusic = LoadMusicStream("music/main.mp3");
+    Music mainMusic = LoadMusicStream("music/main.mp3");
     SetTargetFPS(60);
 
     Cameraz mainCamera;
     createLevels(&mainCamera);
     float delta{};
-    Player player{&mainCamera, &delta};
-    // PlayMusicStream(mainMusic);
+    Player player{&mainCamera, &delta, ImageCopy(caractere)};
 
     Bar manaBar(20, player.getMana(), ccolors.lightGreen, ccolors.white, {15, 15, 300, 25}, &mainCamera);
+
+
+    PlayMusicStream(mainMusic);
     while (!WindowShouldClose())
     {
         delta = GetFrameTime();
@@ -34,7 +36,7 @@ int main()
         manaBar.setCurrent(player.getMana());
         manaBar.draw();
         EndDrawing();
-        // UpdateMusicStream(mainMusic);
+        UpdateMusicStream(mainMusic);
     }
     CloseWindow();
     return 0;
