@@ -15,18 +15,18 @@ int main()
     SetTargetFPS(60);
 
     Cameraz mainCamera;
-    createLevels(&mainCamera);
     float delta{};
     Player player{&mainCamera, &delta, ImageCopy(caractere), ImageCopy(caractereRun), ImageCopy(caractereJump)};
 
     Bar manaBar(20, player.getMana(), ccolors.lightGreen, ccolors.white, {15, 15, 300, 25}, &mainCamera);
-
+    Level level1 = createLevel1(&mainCamera, &player);
 
     PlayMusicStream(mainMusic);
     while (!WindowShouldClose())
     {
         delta = GetFrameTime();
         player.movement(level1.getPlatforms());
+        level1.handleInterract();
         player.manaDebugTest(); // Comment to deactivate debug of mana and modification
         cameraDebugTest(&mainCamera); // Comment to deactivate debug of camera scale
         cameraFollowPlayer(&mainCamera, &player);
