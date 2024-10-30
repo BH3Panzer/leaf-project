@@ -2,6 +2,12 @@
     #define PLAYER
     #include "../header/level.hpp"
 
+    struct Sprite
+    {
+        Texture2D s;
+        Texture2D rs;
+    };
+
     class Player
     {
         private:
@@ -13,20 +19,25 @@
             Vector2 velMax = {600, 2000};
             Vector2 acceleration = {6000, 3000};
             int jump = 900;
-            Texture2D sprite;
+            Sprite sprite;
+            Sprite spriteRun;
+            Sprite spriteJump;
+            int frameRunning = 0;
+            float framePeriod = 0.05;
             int scale;
+            bool lookRight = true;
 
         public:
-            Player(Cameraz* cam, float* delta, Image sprite, int scale = 3);
+            Player(Cameraz* cam, float* delta, Image sprite, Image spriteRun, Image spriteJump, int scale = 3);
             int detectCollision(std::vector<Platform>& platforms, bool horizontal = true) const;
             bool isOnFloor(std::vector<Platform>& platforms);
             void movement(std::vector<Platform> platforms);
             void drawPlayer();
             int getMana();
-            void setMana(int mana);
-            void addMana(int q);
-            void subMana(int q);
-            void manaDebugTest();
+            void setMana(unsigned int mana);
+            void addMana(unsigned int q);
+            void subMana(unsigned int q);
+            //void manaDebugTest();
             Rectangle getRect();
     };
 

@@ -17,7 +17,7 @@ int main()
     Cameraz mainCamera;
     createLevels(&mainCamera);
     float delta{};
-    Player player{&mainCamera, &delta, ImageCopy(caractere)};
+    Player player{&mainCamera, &delta, ImageCopy(caractere), ImageCopy(caractereRun), ImageCopy(caractereJump)};
 
     Bar manaBar(20, player.getMana(), ccolors.lightGreen, ccolors.white, {15, 15, 300, 25}, &mainCamera);
 
@@ -27,7 +27,7 @@ int main()
     {
         delta = GetFrameTime();
         player.movement(level1.getPlatforms());
-        player.manaDebugTest(); //Comment to deactivate debug of mana and modification
+        //player.manaDebugTest(); //Comment to deactivate debug of mana and modification
         cameraFollowPlayer(&mainCamera, &player);
         BeginDrawing();
         ClearBackground(ccolors.blue);

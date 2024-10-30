@@ -1,14 +1,20 @@
 #include "../header/player.hpp"
-#include <iostream>
-Player::Player(Cameraz* cam, float* delta, Image sprite, int scale): cam(cam), delta(delta), scale(scale)
+
+Player::Player(Cameraz* cam, float* delta, Image sprite, Image spriteRun, Image spriteJump, int scale): cam(cam), delta(delta), scale(scale)
 {
     this->rect = {5, 5, (float)(12 * scale), (float)(16 * scale)};
-    std::cout << "1" << std::endl;
-    std::cout << sprite.data << std::endl;
     ImageResizeNN(&sprite, (int)(16 * scale), (int)(16 * scale));
-    std::cout << "2" << std::endl;
-    this->sprite = LoadTextureFromImage(sprite);
-    std::cout << "3" << std::endl;
+    this->sprite.s = LoadTextureFromImage(sprite);
+    ImageFlipHorizontal(&sprite);
+    this->sprite.rs = LoadTextureFromImage(sprite);
+    ImageResizeNN(&spriteRun, (int)(16 * scale), (int)(180 * scale));
+    this->spriteRun.s = LoadTextureFromImage(spriteRun);
+    ImageFlipHorizontal(&spriteRun);
+    this->spriteRun.rs = LoadTextureFromImage(spriteRun);
+    ImageResizeNN(&spriteJump, (int)(16 * scale), (int)(18 * scale));
+    this->spriteJump.s = LoadTextureFromImage(spriteJump);
+    ImageFlipHorizontal(&spriteJump);
+    this->spriteJump.rs = LoadTextureFromImage(spriteJump);
 }
 
 int Player::detectCollision(std::vector<Platform>& platforms, bool horizontal) const
@@ -103,6 +109,10 @@ void Player::movement(std::vector<Platform> platforms)
         {
             this->vel.x = -this->velMax.x;
         }
+        if (this->vel.x < 0 && lookRight)
+        {
+            lookRight = false;
+        }
     }
     else if (this->vel.x < 0)
     {
@@ -119,6 +129,10 @@ void Player::movement(std::vector<Platform> platforms)
         if (this->vel.x > this->velMax.x)
         {
             this->vel.x = this->velMax.x;
+        }
+        if (this->vel.x > 0 && !lookRight)
+        {
+            lookRight = true;
         }
     }
     else if (this->vel.x > 0)
@@ -137,6 +151,24 @@ void Player::movement(std::vector<Platform> platforms)
         if (idCollision == -1)
         {
             this->rect.x += this->vel.x * *this->delta;
+            if (isOnFloor)
+            {
+                this->framePeriod -= *this->delta;
+                while (this->framePeriod < 0)
+                {
+                    this->frameRunning++;
+                    this->framePeriod += 0.05;
+                    if (this->frameRunning == 10)
+                    {
+                        this->frameRunning = 0;
+                    }
+                }
+            }
+            else if (this->frameRunning != 0 || this->framePeriod != 0.05)
+            {
+                this->frameRunning = 0;
+                this->framePeriod = 0.05;
+            }
         }
         else
         {
@@ -150,6 +182,8 @@ void Player::movement(std::vector<Platform> platforms)
                 this->rect.x = pRect.x - this->rect.width;
             }
             this->vel.x = 0;
+            this->frameRunning = 0;
+            this->framePeriod = 0.05;
         }
     }
 
@@ -191,7 +225,32 @@ void Player::movement(std::vector<Platform> platforms)
 void Player::drawPlayer()
 {
     //DrawRectangle(this->rect.x - (*this->cam).x, this->rect.y - (*this->cam).y, this->rect.width, this->rect.height, RED);
-    DrawTexture(this->sprite, this->rect.x - (*this->cam).x - this->scale * 2, this->rect.y - (*this->cam).y, WHITE);
+    std::vector<Texture2D*> sprites;
+    if (lookRight)
+    {
+        sprites.push_back(&this->sprite.s);
+        sprites.push_back(&this->spriteRun.s);
+        sprites.push_back(&this->spriteJump.s);
+    }
+    else
+    {
+        sprites.push_back(&this->sprite.rs);
+        sprites.push_back(&this->spriteRun.rs);
+        sprites.push_back(&this->spriteJump.rs);
+    }
+
+    if (this->vel.y != 0)
+    {
+        DrawTexture(*sprites[2], this->rect.x - (*this->cam).x - this->scale * 2, this->rect.y - (*this->cam).y - this->scale * 2, WHITE);
+    }
+    else if (this->vel.x != 0)
+    {
+        DrawTextureRec(*sprites[1], {0, (float)(18 * frameRunning * this->scale), (float)(16 * this->scale), (float)(18 * this->scale)}, {this->rect.x - (*this->cam).x - this->scale * 2, this->rect.y - (*this->cam).y - this->scale * 2}, WHITE);
+    }
+    else
+    {
+        DrawTexture(*sprites[0], this->rect.x - (*this->cam).x - this->scale * 2, this->rect.y - (*this->cam).y, WHITE);
+    }
     return;
 }
 
@@ -199,36 +258,30 @@ int Player::getMana() {
     return this->mana;
 }
 
-void Player::setMana(int mana) {
+void Player::setMana(unsigned int mana) {
     if (mana >= 20) {
         this->mana = 20;
-    }
-    else if (mana <= 0) {
-        this->mana = 0;
     }
     else {
         this->mana = mana;
     }
 }
 
-void Player::addMana(int q) {
-    if (this->mana + q >= 20) {
+void Player::addMana(unsigned int q) {
+    this->mana += q;
+    if (this->mana > 20) {
         this->mana = 20;
     }
-    else {
-        this->mana+=q;
-    }
 }
 
-void Player::subMana(int q) {
-    if (this->mana - q <= 0) {
+void Player::subMana(unsigned int q) {
+    this->mana -= q;
+    if (this->mana < 0) {
         this->mana = 0;
     }
-    else {
-        this->mana-=q;
-    }
 }
 
+/*
 void Player::manaDebugTest() {
     if (IsKeyPressed(KEY_EIGHT)) {
         this->addMana(1);
@@ -241,6 +294,7 @@ void Player::manaDebugTest() {
 
     }
 }
+*/
 
 Rectangle Player::getRect() {
     return this->rect;
