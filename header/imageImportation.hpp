@@ -11,5 +11,7 @@
     extern Image caractereWalk;
     extern std::array<unsigned char, 11520> IMAGE_DATA_CARACTERE_RUN;
     extern Image caractereRun;
+    extern std::array<unsigned char, 3456> IMAGE_DATA_CARACTERE_JUMP;
+    extern Image caractereJump;
 
 #endif
