@@ -20,5 +20,5 @@ Keyboard only.
 - Enter to interact with mother nature
 
 ## Developers:
-    - BH3Panzer (repo owner), dev, music
-    - Fraï , dev, graphics
+- BH3Panzer (repo owner), dev, music
+- Fraï , dev, graphics
