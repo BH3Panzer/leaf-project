@@ -14,6 +14,10 @@
             std::vector<Platform> platforms;
             std::vector<GrowingPlant> plants;
             Player* p;
+            Cameraz* cam;
+            Texture2D growingVineVertical;
+            Texture2D growingVineFLeftHorizontal;
+            Texture2D growingVineFRightHorizontal;
 
         public:
             void addPlatform(Platform plat);
@@ -21,10 +25,12 @@
             void drawLevel();
             std::vector<Platform> getPlatforms();
             std::vector<GrowingPlant> getPlants();
-            void handleInterract();
-            Level(Player* p);
+            GrowingPlant* detectPlant();
+            Level(Player* p, Cameraz* cam, Image growingVine);
+            void actualisatePlant();
+            Texture2D* getSprite(int n);
     };
 
-    Level createLevel1(Cameraz* cam, Player* p);
+    Level createLevel1(Cameraz* cam, Player* p, float* delta, Image growingVine);
 
 #endif

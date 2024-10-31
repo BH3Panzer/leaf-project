@@ -1,21 +1,38 @@
 #include "../header/player.hpp"
 #include <iostream>
 
-Player::Player(Cameraz* cam, float* delta, Image sprite, Image spriteRun, Image spriteJump): cam(cam), delta(delta)
+Player::Player(Cameraz* cam, float* delta, Image sprite, Image spriteRun, Image spriteJump, Image spriteConcetration, Image spriteGrow, Image spriteBridge): cam(cam), delta(delta)
 {
     this->rect = {5, 5, (float)(12 * cam->scale), (float)(16 * cam->scale)};
     ImageResizeNN(&sprite, (int)(16 * cam->scale), (int)(16 * cam->scale));
     this->sprite.s = LoadTextureFromImage(sprite);
     ImageFlipHorizontal(&sprite);
     this->sprite.rs = LoadTextureFromImage(sprite);
+
     ImageResizeNN(&spriteRun, (int)(16 * cam->scale), (int)(180 * cam->scale));
     this->spriteRun.s = LoadTextureFromImage(spriteRun);
     ImageFlipHorizontal(&spriteRun);
     this->spriteRun.rs = LoadTextureFromImage(spriteRun);
+
     ImageResizeNN(&spriteJump, (int)(16 * cam->scale), (int)(54 * cam->scale));
     this->spriteJump.s = LoadTextureFromImage(spriteJump);
     ImageFlipHorizontal(&spriteJump);
     this->spriteJump.rs = LoadTextureFromImage(spriteJump);
+
+    ImageResizeNN(&spriteConcetration, (int)(32 * cam->scale), (int)(480 * cam->scale));
+    this->spriteConcetration.s = LoadTextureFromImage(spriteConcetration);
+    ImageFlipHorizontal(&spriteConcetration);
+    this->spriteConcetration.rs = LoadTextureFromImage(spriteConcetration);
+
+    ImageResizeNN(&spriteGrow, (int)(32 * cam->scale), (int)(288 * cam->scale));
+    this->spriteGrow.s = LoadTextureFromImage(spriteGrow);
+    ImageFlipHorizontal(&spriteGrow);
+    this->spriteGrow.rs = LoadTextureFromImage(spriteGrow);
+
+    ImageResizeNN(&spriteBridge, (int)(32 * cam->scale), (int)(576 * cam->scale));
+    this->spriteBridge.s = LoadTextureFromImage(spriteBridge);
+    ImageFlipHorizontal(&spriteBridge);
+    this->spriteBridge.rs = LoadTextureFromImage(spriteBridge);
 }
 
 int Player::detectCollision(std::vector<Platform>& platforms, bool horizontal) const
@@ -103,120 +120,131 @@ void Player::movement(std::vector<Platform> platforms)
 {
     const bool isOnFloor = this->isOnFloor(platforms);
 
-    if (IsKeyDown(KEY_A))
+    if (!(this->pConcentration && isOnFloor))
     {
-        this->vel.x -= *this->delta * this->acceleration.x;
-        if (this->vel.x < -this->velMax.x)
+        if (this->pConcentration)
         {
-            this->vel.x = -this->velMax.x;
+            this->plantAround = NULL;
+            this->frame = -1;
+            this->framePeriod = 0;
+            this->pConcentration = false;
         }
-        if (this->vel.x < 0 && lookRight)
-        {
-            lookRight = false;
-        }
-    }
-    else if (this->vel.x < 0)
-    {
-        this->vel.x += (*this->delta) * this->acceleration.x;
-        if (this->vel.x > 0)
-        {
-            this->vel.x = 0;
-        }
-    }
 
-    if (IsKeyDown(KEY_D))
-    {
-        this->vel.x += *this->delta * this->acceleration.x;
-        if (this->vel.x > this->velMax.x)
+        if (IsKeyDown(KEY_A))
         {
-            this->vel.x = this->velMax.x;
-        }
-        if (this->vel.x > 0 && !lookRight)
-        {
-            lookRight = true;
-        }
-    }
-    else if (this->vel.x > 0)
-    {
-        this->vel.x -= (*this->delta) * this->acceleration.x;
-        if (this->vel.x < 0)
-        {
-            this->vel.x = 0;
-        }
-    }
-
-    if (this->vel.x != 0)
-    {
-        const int idCollision{this->detectCollision(platforms)};
-
-        if (idCollision == -1)
-        {
-            this->rect.x += this->vel.x * *this->delta;
-            if (isOnFloor)
+            this->vel.x -= *this->delta * this->acceleration.x;
+            if (this->vel.x < -this->velMax.x)
             {
-                this->framePeriod -= *this->delta;
-                while (this->framePeriod < 0)
-                {
-                    this->frameRunning++;
-                    this->framePeriod += 0.05;
-                    if (this->frameRunning == 10)
-                    {
-                        this->frameRunning = 0;
-                    }
-                }
+                this->vel.x = -this->velMax.x;
             }
-            else if (this->frameRunning != 0 || this->framePeriod != 0.05)
+            if (this->vel.x < 0 && lookRight)
             {
-                this->frameRunning = 0;
-                this->framePeriod = 0.05;
+                lookRight = false;
             }
         }
-        else
+        else if (this->vel.x < 0)
         {
-            const Rectangle pRect{platforms[idCollision].getRectangle()};
+            this->vel.x += (*this->delta) * this->acceleration.x;
+            if (this->vel.x > 0)
+            {
+                this->vel.x = 0;
+            }
+        }
+
+        if (IsKeyDown(KEY_D))
+        {
+            this->vel.x += *this->delta * this->acceleration.x;
+            if (this->vel.x > this->velMax.x)
+            {
+                this->vel.x = this->velMax.x;
+            }
+            if (this->vel.x > 0 && !lookRight)
+            {
+                lookRight = true;
+            }
+        }
+        else if (this->vel.x > 0)
+        {
+            this->vel.x -= (*this->delta) * this->acceleration.x;
             if (this->vel.x < 0)
             {
-                this->rect.x = pRect.x + pRect.width;
+                this->vel.x = 0;
+            }
+        }
+
+        if (this->vel.x != 0)
+        {
+            const int idCollision{this->detectCollision(platforms)};
+
+            if (idCollision == -1)
+            {
+                this->rect.x += this->vel.x * *this->delta;
+                if (isOnFloor)
+                {
+                    this->framePeriod -= *this->delta;
+                    while (this->framePeriod < 0)
+                    {
+                        this->frame++;
+                        this->framePeriod += 0.05;
+                        if (this->frame == 10)
+                        {
+                            this->frame = 0;
+                        }
+                    }
+                }
+                else if (this->frame != -1)
+                {
+                    this->frame = -1;
+                    this->framePeriod = 0;
+                }
             }
             else
             {
-                this->rect.x = pRect.x - this->rect.width;
+                const Rectangle pRect{platforms[idCollision].getRectangle()};
+                if (this->vel.x < 0)
+                {
+                    this->rect.x = pRect.x + pRect.width;
+                }
+                else
+                {
+                    this->rect.x = pRect.x - this->rect.width;
+                }
+                this->vel.x = 0;
+                this->frame = -1;
+                this->framePeriod = 0;
             }
-            this->vel.x = 0;
-            this->frameRunning = 0;
-            this->framePeriod = 0.05;
         }
-    }
 
 
-    if (isOnFloor && this->vel.y == 0)
-    {
-        if (IsKeyDown(KEY_SPACE))
+        if (isOnFloor && this->vel.y == 0)
         {
-            this->vel.y = -this->jump;
-        }
-    }
-    else
-    {
-        const int idCollision{this->detectCollision(platforms, false)};
-
-        if (idCollision == -1)
-        {
-            this->rect.y += this->vel.y * *this->delta;
-            this->vel.y += *this->delta * this->acceleration.y;
+            if (IsKeyDown(KEY_SPACE))
+            {
+                this->vel.y = -this->jump;
+            }
         }
         else
         {
-            const Rectangle pRect{platforms[idCollision].getRectangle()};
-            if (this->vel.y < 0)
+            const int idCollision{this->detectCollision(platforms, false)};
+
+            if (idCollision == -1)
             {
-                this->rect.y = pRect.y + pRect.height;
+                this->rect.y += this->vel.y * *this->delta;
+                this->vel.y += *this->delta * this->acceleration.y;
             }
             else
             {
-                this->rect.y = pRect.y - this->rect.height;
+                const Rectangle pRect{platforms[idCollision].getRectangle()};
+                if (this->vel.y < 0)
+                {
+                    this->rect.y = pRect.y + pRect.height;
+                }
+                else
+                {
+                    this->rect.y = pRect.y - this->rect.height;
+                }
+                this->vel.y = 0;
             }
-            this->vel.y = 0;
         }
     }
 
@@ -226,40 +254,85 @@ void Player::movement(std::vector<Platform> platforms)
 void Player::drawPlayer()
 {
     //DrawRectangle(this->rect.x - (*this->cam).x, this->rect.y - (*this->cam).y, this->rect.width, this->rect.height, RED);
-    std::vector<Texture2D*> sprites;
-    if (lookRight)
+    if (!this->pConcentration)
     {
-        sprites.push_back(&this->sprite.s);
-        sprites.push_back(&this->spriteRun.s);
-        sprites.push_back(&this->spriteJump.s);
-    }
-    else
-    {
-        sprites.push_back(&this->sprite.rs);
-        sprites.push_back(&this->spriteRun.rs);
-        sprites.push_back(&this->spriteJump.rs);
-    }
+        std::vector<Texture2D*> sprites;
+        if (this->lookRight)
+        {
+            sprites.push_back(&this->sprite.s);
+            sprites.push_back(&this->spriteRun.s);
+            sprites.push_back(&this->spriteJump.s);
+        }
+        else
+        {
+            sprites.push_back(&this->sprite.rs);
+            sprites.push_back(&this->spriteRun.rs);
+            sprites.push_back(&this->spriteJump.rs);
+        }
 
-    if (this->vel.y != 0)
-    {
-        Rectangle rectAnimJump{0, 0, (float)(16 * this->cam->scale), (float)(18 * this->cam->scale)};
-        if (-150 < this->vel.y && this->vel.y < 150)
+        if (this->vel.y != 0)
         {
-            rectAnimJump.y = (float)(18 * this->cam->scale);
+            Rectangle rectAnim{0, 0, (float)(16 * this->cam->scale), (float)(18 * this->cam->scale)};
+            if (-150 < this->vel.y && this->vel.y < 150)
+            {
+                rectAnim.y = (float)(18 * this->cam->scale);
+            }
+            else if (this->vel.y >= 150)
+            {
+                rectAnim.y = (float)(36 * this->cam->scale);
+            }
+            DrawTextureRec(*sprites[2], rectAnim, {this->rect.x - this->cam->x - this->cam->scale * 2, this->rect.y - this->cam->y - this->cam->scale * 2}, WHITE);
         }
-        else if (this->vel.y >= 150)
+        else if (this->vel.x != 0)
         {
-            rectAnimJump.y = (float)(36 * this->cam->scale);
+            DrawTextureRec(*sprites[1], {0, (float)(18 * this->frame * this->cam->scale), (float)(16 * this->cam->scale), (float)(18 * this->cam->scale)}, {this->rect.x - this->cam->x - this->cam->scale * 2, this->rect.y - this->cam->y - this->cam->scale * 2}, WHITE);
         }
-        DrawTextureRec(*sprites[2], rectAnimJump, {this->rect.x - (*this->cam).x - this->cam->scale * 2, this->rect.y - (*this->cam).y - this->cam->scale * 2}, WHITE);
-    }
-    else if (this->vel.x != 0)
-    {
-        DrawTextureRec(*sprites[1], {0, (float)(18 * frameRunning * this->cam->scale), (float)(16 * this->cam->scale), (float)(18 * this->cam->scale)}, {this->rect.x - (*this->cam).x - this->cam->scale * 2, this->rect.y - (*this->cam).y - this->cam->scale * 2}, WHITE);
+        else
+        {
+            DrawTexture(*sprites[0], this->rect.x - this->cam->x - this->cam->scale * 2, this->rect.y - this->cam->y, WHITE);
+        }
     }
     else
     {
-        DrawTexture(*sprites[0], this->rect.x - (*this->cam).x - this->cam->scale * 2, this->rect.y - (*this->cam).y, WHITE);
+        Texture2D* sprites;
+        if (this->pReady)
+        {
+            if (this->lookRight)
+            {
+                if (this->plantAround->isHorizontal())
+                {
+                    sprites = &this->spriteBridge.s;
+                }
+                else
+                {
+                    sprites = &this->spriteGrow.s;
+                }
+            }
+            else
+            {
+                if (this->plantAround->isHorizontal())
+                {
+                    sprites = &this->spriteBridge.rs;
+                }
+                else
+                {
+                    sprites = &this->spriteGrow.rs;
+                }
+            }
+            
+        }
+        else
+        {
+            if (this->lookRight)
+            {
+                sprites = &this->spriteConcetration.s;
+            }
+            else
+            {
+                sprites = &this->spriteConcetration.rs;
+            }
+        }
+        DrawTextureRec(*sprites, {0, (float)(32 * this->frame * this->cam->scale), (float)(32 * this->cam->scale), (float)(32 * this->cam->scale)}, {this->rect.x - (*this->cam).x - this->cam->scale * 10, this->rect.y - (*this->cam).y - this->cam->scale * 16}, WHITE);
     }
     return;
 }
@@ -315,4 +388,78 @@ Vector2 Player::getVel() {
 
 Vector2 Player::getVelMax() {
     return this->velMax;
+}
+
+void Player::handleInterract(Level* level)
+{
+    if (IsKeyPressed(KEY_ENTER))
+    {
+        if (this->vel.x == 0 && this->vel.y == 0)
+        {
+            this->plantAround = level->detectPlant();
+            this->frame = 0;
+            this->framePeriod = 0.1;
+            this->pConcentration = true;
+        }
+    }
+    else if (this->pConcentration)
+    {
+        if (this->pReady)
+        {
+            this->framePeriod -= *this->delta;
+            while (this->framePeriod < 0)
+            {
+                this->frame++;
+                this->framePeriod += 0.1;
+                const bool isHorizontal{this->plantAround->isHorizontal()};
+                if (isHorizontal && this->frame == 13)
+                {
+                    this->plantAround->startGrowing();
+                }
+                else if (!isHorizontal && this->frame == 5)
+                {
+                    this->plantAround->startGrowing();
+                }
+                else if ((!isHorizontal && this->frame == 8) || this->frame == 17)
+                {
+                    this->frame = -1;
+                    this->framePeriod = 0;
+                    this->plantAround = NULL;
+                    this->pConcentration = false;
+                    this->pReady = false;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            if (IsKeyDown(KEY_ENTER))
+            {
+                this->framePeriod -= *this->delta;
+                while (this->framePeriod < 0)
+                {
+                    this->frame++;
+                    this->framePeriod += 0.1;
+                    if (this->frame == 15)
+                    {
+                        this->frame = 0;
+                        this->framePeriod = 0.1;
+                        if (this->plantAround != NULL)
+                        {
+                            this->pReady = true;
+                            this->mana -= this->plantAround->getRequiredMana();
+                        }
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                this->plantAround = NULL;
+                this->frame = -1;
+                this->framePeriod = 0;
+                this->pConcentration = false;
+            }
+        }
+    }
 }

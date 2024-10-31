@@ -22,12 +22,18 @@
             Sprite sprite;
             Sprite spriteRun;
             Sprite spriteJump;
-            int frameRunning = 0;
-            float framePeriod = 0.05;
+            Sprite spriteConcetration;
+            Sprite spriteGrow;
+            Sprite spriteBridge;
+            int frame = -1;
+            float framePeriod = 0;
             bool lookRight = true;
+            GrowingPlant* plantAround = NULL;
+            bool pConcentration = false;
+            bool pReady = false;
 
         public:
-            Player(Cameraz* cam, float* delta, Image sprite, Image spriteRun, Image spriteJump);
+            Player(Cameraz* cam, float* delta, Image sprite, Image spriteRun, Image spriteJump, Image spriteConcetration, Image spriteGrow, Image spriteBridge);
             int detectCollision(std::vector<Platform>& platforms, bool horizontal = true) const;
             bool isOnFloor(std::vector<Platform>& platforms);
             void movement(std::vector<Platform> platforms);
@@ -40,6 +46,7 @@
             Rectangle getRect();
             Vector2 getVel();
             Vector2 getVelMax();
+            void handleInterract(Level* level);
     };
 
 #endif

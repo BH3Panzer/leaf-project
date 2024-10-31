@@ -18,7 +18,8 @@
             Color getColor();
             void setRectangle(Rectangle rect);
             void setColor(Color col);
-
+            bool isPlant();
+            Rectangle* getRectPointeur();
     };
 
 #endif

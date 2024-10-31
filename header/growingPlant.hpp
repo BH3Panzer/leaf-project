@@ -8,17 +8,33 @@
     private:
         Rectangle rect;
         int maxSize;
+        int size = 0;
         bool horizontal = false;
+        bool fromLeft = true;
+        bool haveGrow = false;
+        bool growing = false;
         int requiredMana;
         Cameraz* cam;
+        int frame = -1;
+        float framePeriod = 0;
+        float* delta;
+        Texture2D* sprite;
+        int id = -1;
+        bool stateChange = false;
     public:
-        GrowingPlant(Rectangle rect, int maxSize, bool horizontal, int requiredMana, Cameraz* cam);
-        Rectangle getRect();
+        GrowingPlant(Rectangle rect, int maxSize, bool horizontal, int requiredMana, Cameraz* cam, float* delta, Texture2D* sprite);
+        Rectangle getRect(bool stateOk = false);
         int getMawSize();
         bool isHorizontal();
         int getRequiredMana();
-        void growPlant(Player* p);
+        void growPlant();
+        void startGrowing();
+        bool isAround(Player* p);
         void draw();
+        bool isGrowing();
+        int getId();
+        void setId(int n);
+        bool isStateChange();
     };
 
 #endif

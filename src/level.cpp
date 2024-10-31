@@ -17,7 +17,10 @@ void Level::drawLevel()
 {
     for (Platform plat : this->platforms)
     {
-        plat.drawPlatform();
+        if (!plat.isPlant())
+        {
+            plat.drawPlatform();
+        }
     }
 
     for (GrowingPlant plant : this->plants) {
@@ -35,20 +38,27 @@ std::vector<GrowingPlant> Level::getPlants() {
     return this->plants;
 }
 
-Level::Level(Player* p) {
-    this->p = p;
+Level::Level(Player* p, Cameraz* cam, Image growingVine) : p(p), cam(cam)
+{
+    ImageResizeNN(&growingVine, (int)(16 * this->cam->scale), (int)(576 * this->cam->scale));
+    this->growingVineVertical = LoadTextureFromImage(growingVine);
+    ImageRotateCW(&growingVine);
+    this->growingVineFLeftHorizontal = LoadTextureFromImage(growingVine);
+    ImageFlipHorizontal(&growingVine);
+    this->growingVineFRightHorizontal = LoadTextureFromImage(growingVine);
 }
 
-
-Level createLevel1(Cameraz* cam, Player* p)
+Level createLevel1(Cameraz* cam, Player* p, float* delta, Image growingVine)
 {
-    Level level1(p);
-    Platform ground({0, static_cast<float>(GetScreenHeight()/1.5), 8000, 300}, ccolors.brown, cam);
-    Platform isle1({500, 250, 100, 50}, ccolors.brown, cam);
-    Platform isle2({800, 150, 100, 50}, ccolors.brown, cam);
-    GrowingPlant test({950, ground.getRectangle().y, 32, 32}, 150, false, 0, cam);
+    Level level1(p, cam, growingVine);
 
-    GrowingPlant test2({isle1.getRectangle().x + isle1.getRectangle().width - 32, isle1.getRectangle().y, 32, 32}, 200, true, 15, cam);
+    Platform ground({0, static_cast<float>(GetScreenHeight()/1.5), 8000, 300}, ccolors.brown, cam);
+    Platform isle1({500, 250, 100, 48}, ccolors.brown, cam);
+    Platform isle2({800, 150, 100, 48}, ccolors.brown, cam);
+
+    GrowingPlant test({950, ground.getRectangle().y, (float)(16 * cam->scale), 0}, 5, false, 0, cam, delta, level1.getSprite(0));
+    GrowingPlant test2({isle1.getRectangle().x + isle1.getRectangle().width, isle1.getRectangle().y, 0, (float)(16 * cam->scale)}, 10, true, 15, cam, delta, level1.getSprite(1));
+
     level1.addPlatform(ground);
     level1.addPlatform(isle1);
     level1.addPlatform(isle2);
@@ -58,12 +68,53 @@ Level createLevel1(Cameraz* cam, Player* p)
     return level1;
 }
 
-void Level::handleInterract() {
-    if (IsKeyPressed(KEY_ENTER)) {
-        for (GrowingPlant& plant : this->plants) {
-            plant.growPlant(this->p);
-            std::cout << "rect: " << plant.getRect().y << std::endl;
-            std::cout << "height: " << plant.getRect().height << std::endl;
+GrowingPlant* Level::detectPlant() {
+    for (GrowingPlant& plant : this->plants) {
+        if (plant.isAround(this->p))
+        {
+            return &plant;
+        }
+
+        std::cout << "rect: " << plant.getRect().y << std::endl;
+        std::cout << "height: " << plant.getRect().height << std::endl;
+    }
+    return NULL;
+}
+
+void Level::actualisatePlant()
+{
+    for (GrowingPlant& plant : this->plants)
+    {
+        plant.growPlant();
+        if (plant.isStateChange())
+        {
+            if (plant.getId() == -1)
+            {
+                plant.setId(this->plants.size()+1);
+                this->addPlatform({plant.getRect(), {}, NULL});
+            }
+            else
+            {
+                this->platforms[plant.getId()].setRectangle(plant.getRect(true));
+            }
         }
     }
+    return;
+}
+
+Texture2D* Level::getSprite(int n)
+{
+    if (n == 0)
+    {
+        return &this->growingVineVertical;
+    }
+    else if (n == 1)
+    {
+        return &this->growingVineFLeftHorizontal;
+    }
+    else if (n == 2)
+    {
+        return &this->growingVineFRightHorizontal;
+    }
+    return NULL;
 }
