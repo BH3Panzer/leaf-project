@@ -8,7 +8,7 @@ void Menu::drawLoadingScreen()
     EndDrawing();
 }
 
-Menu::Menu(Image screenMainMenu, Image screenLoading, Image growingVine, Image manaBloc, Image getManaBloc, Image reloadManaBloc, Image reconstitutionManaBloc)
+Menu::Menu(Image screenMainMenu, Image screenLoading, Image growingVine, Image manaBloc, Image getManaBloc, Image reloadManaBloc, Image reconstitutionManaBloc, Image texturesPlateformes)
 {
     ImageResizeNN(&screenLoading, GetScreenWidth(), GetScreenHeight());
     this->screenLoading = LoadTextureFromImage(screenLoading);
@@ -33,12 +33,15 @@ Menu::Menu(Image screenMainMenu, Image screenLoading, Image growingVine, Image m
     ImageResizeNN(&reconstitutionManaBloc, (int)(16 * mainCamera.scale), (int)(128 * mainCamera.scale));
     this->reconstitutionManaBloc = LoadTextureFromImage(reconstitutionManaBloc);
 
+    ImageResizeNN(&texturesPlateformes, (int)(160 * mainCamera.scale), (int)(16 * mainCamera.scale));
+    this->texturesPlateformes = LoadTextureFromImage(texturesPlateformes);
+
     this->player = Player(&mainCamera, &delta, ImageCopy(caractere), ImageCopy(caractereRun), ImageCopy(caractereJump), ImageCopy(caractere_concentration),
         ImageCopy(caractere_growing), ImageCopy(caractere_bridge));
 
     this->manaBar = Bar(20, player.getMana(), ccolors.lightGreen, ccolors.white, {15, 15, 300, 25}, &mainCamera);
     this->level = createLevel(1, &mainCamera, &player, &delta, &this->growingVineVertical, &this->growingVineFLeftHorizontal, &this->growingVineFRightHorizontal,
-        &this->manaBloc, &this->getManaBloc, &this->reloadManaBloc, &this->reconstitutionManaBloc);
+        &this->manaBloc, &this->getManaBloc, &this->reloadManaBloc, &this->reconstitutionManaBloc, &this->texturesPlateformes);
 }
 
 void Menu::drawMainMenu()
