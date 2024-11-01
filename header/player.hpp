@@ -1,6 +1,7 @@
 #ifndef PLAYER
     #define PLAYER
     #include "../header/level.hpp"
+    #include <cstddef>
 
     struct Sprite
     {
