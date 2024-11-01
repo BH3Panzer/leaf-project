@@ -32,7 +32,7 @@ int main()
         level1.actualisatePlant();
         player.manaDebugTest(); // Comment to deactivate debug of mana and modification
         cameraDebugTest(&mainCamera); // Comment to deactivate debug of camera scale
-        cameraFollowPlayer(&mainCamera, &player);
+        cameraFollowPlayerF(&mainCamera, &player, delta);
         cameraMove(&mainCamera, delta);
         BeginDrawing();
         ClearBackground(ccolors.blue);

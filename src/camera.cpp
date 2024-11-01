@@ -4,7 +4,17 @@
 #include "../raylib/raylib.h"
 #include <iostream>
 
-void cameraFollowPlayer(Cameraz* cam, Player* p) {
+void cameraFollowPlayerF(Cameraz* cam, Player* p, float delta)
+{
+    Rectangle rectPlayer = p->getRect();
+    int xDifference = rectPlayer.x + rectPlayer.width/2 - cam->x - GetScreenWidth()/2;
+    int yDifference = rectPlayer.y + rectPlayer.height/2 - cam->y - GetScreenHeight()/2;
+
+    cam->x += xDifference * delta * 3;
+    cam->y += yDifference * delta * 5;
+}
+
+void cameraFollowPlayerC(Cameraz* cam, Player* p) {
     int modifier = 100;
     if (p->getRect().x - cam->x > GetScreenWidth()/32*20)
     {

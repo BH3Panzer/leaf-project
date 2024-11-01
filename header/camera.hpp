@@ -13,7 +13,8 @@
         float velY = 0;
     };
 
-    void cameraFollowPlayer(Cameraz* cam, Player* p);
+    void cameraFollowPlayerF(Cameraz* cam, Player* p, float delta);
+    void cameraFollowPlayerC(Cameraz* cam, Player* p);
     void cameraFollowPlatform(Cameraz* cam, Platform* p);
     void cameraMove(Cameraz* cam, float& delta);
     void cameraSetScale(Cameraz* cam, int q);
