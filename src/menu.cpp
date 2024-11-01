@@ -8,7 +8,7 @@ void Menu::drawLoadingScreen()
     EndDrawing();
 }
 
-Menu::Menu(Image screenMainMenu, Image screenLoading, Image growingVine, Image manaBloc, Image getManaBloc, Image reloadManaBloc, Image reconstitutionManaBloc)
+Menu::Menu(Image screenMainMenu, Image screenLoading, Image growingVine, Image manaBloc, Image getManaBloc, Image reloadManaBloc, Image reconstitutionManaBloc, int levelNumber)
 {
     ImageResizeNN(&screenLoading, GetScreenWidth(), GetScreenHeight());
     this->screenLoading = LoadTextureFromImage(screenLoading);
@@ -37,8 +37,9 @@ Menu::Menu(Image screenMainMenu, Image screenLoading, Image growingVine, Image m
         ImageCopy(caractere_growing), ImageCopy(caractere_bridge));
 
     this->manaBar = Bar(20, player.getMana(), ccolors.lightGreen, ccolors.white, {15, 15, 300, 25}, &mainCamera);
-    this->level = createLevel(1, &mainCamera, &player, &delta, &this->growingVineVertical, &this->growingVineFLeftHorizontal, &this->growingVineFRightHorizontal,
+    this->level = createLevel(levelNumber, &mainCamera, &player, &delta, &this->growingVineVertical, &this->growingVineFLeftHorizontal, &this->growingVineFRightHorizontal,
         &this->manaBloc, &this->getManaBloc, &this->reloadManaBloc, &this->reconstitutionManaBloc);
+    this->levelNumber = levelNumber;
 }
 
 void Menu::drawMainMenu()
@@ -58,6 +59,7 @@ void Menu::playFrame()
     cameraDebugTest(&this->mainCamera); // Comment to deactivate debug of camera scale
     cameraFollowPlayerF(&this->mainCamera, &this->player, this->delta);
     cameraMove(&this->mainCamera, this->delta);
+    this->handleLevels();
 
     BeginDrawing();
     ClearBackground(ccolors.blue);
@@ -66,4 +68,14 @@ void Menu::playFrame()
     this->manaBar.setCurrent(this->player.getMana());
     this->manaBar.draw();
     EndDrawing();
+}
+
+void Menu::handleLevels() {
+    this->level.checkLevelFinished();
+    if (this->level.isFinished()) {
+        this->levelNumber += 1;
+        this->level = createLevel(this->levelNumber, &this->mainCamera, &this->player, &this->delta, &this->growingVineVertical, &this->growingVineFLeftHorizontal, &this->growingVineFRightHorizontal,
+        &this->manaBloc, &this->getManaBloc, &this->reloadManaBloc, &this->reconstitutionManaBloc);
+        this->player.setPosition(5, 5);
+    }
 }

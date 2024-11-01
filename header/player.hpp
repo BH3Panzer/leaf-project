@@ -53,6 +53,7 @@
             Vector2 getVelMax();
             void handleInterract(Level* level);
             void recoverManaBloc(Level* level);
+            void setPosition(int x, int y);
     };
 
 #endif

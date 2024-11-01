@@ -510,3 +510,8 @@ void Player::recoverManaBloc(Level* level)
         }
     }
 }
+
+void Player::setPosition(int x, int y) {
+    this->rect.x = x;
+    this->rect.y = y;
+}

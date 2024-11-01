@@ -36,6 +36,7 @@ void Level::drawLevel()
     for (ManaBloc mBloc : this->manaBlocs) {
         mBloc.draw(this->manaBloc, this->getManaBloc, this->reloadManaBloc, this->reconstitutionManaBloc);
     }
+    DrawRectangle(this->end.x - this->cam->x, this->end.y - this->cam->y, this->end.width, this->end.height, ccolors.red);
     return;
 }
 
@@ -61,6 +62,8 @@ Level createLevel(int numLevel, Cameraz* cam, Player* p, float* delta, Texture2D
 {
     Level level(p, cam, gVV, gVFLH, gVFRH, MB, GMB, RLMB, RCMB);
 
+    level.unfinish();
+
     if (numLevel == 1)
     {
         Platform ground({0, static_cast<float>(GetScreenHeight()/1.5), 8000, 300}, ccolors.brown, cam);
@@ -80,6 +83,16 @@ Level createLevel(int numLevel, Cameraz* cam, Player* p, float* delta, Texture2D
         level.addPlant(test2);
         level.addManaBloc(mbTest);
         level.addManaBloc(mbTest2);
+        level.setFinishRect({5000, ground.getRectangle().y - 32, 32, 32});
+    }
+    else if (numLevel == 2) {
+        Platform ground({0, static_cast<float>(GetScreenHeight()/1.5), 8000, 300}, ccolors.brown, cam);
+        Platform isle1({150, 150, 800, 48}, ccolors.brown, cam);
+
+        level.addPlatform(ground);
+        level.addPlatform(isle1);
+        level.setFinishRect({3000, ground.getRectangle().y - 32, 32, 32});
+
     }
 
     return level;
@@ -156,3 +169,31 @@ Texture2D* Level::getSprite(int n)
     }
     return NULL;
 }
+
+bool Level::isFinished() {
+    return this->finished;
+}
+
+void Level::finish() {
+    this->finished = true;
+}
+
+void Level::unfinish() {
+    this->finished = false;
+}
+
+Rectangle Level::getFinishRect() {
+    return this->end;
+}
+
+void Level::setFinishRect(Rectangle rect) {
+    this->end = rect;
+}
+
+void Level::checkLevelFinished() {
+    if (CheckCollisionRecs(this->p->getRect(), this->end)) {
+        this->finished = true;
+    }
+}
+
+

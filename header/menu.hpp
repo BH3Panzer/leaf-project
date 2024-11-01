@@ -12,6 +12,7 @@
             float delta;
             Player player;
             Level level;
+            int levelNumber;
             Bar manaBar;
             Cameraz mainCamera;
 
@@ -26,9 +27,10 @@
             Texture2D reconstitutionManaBloc;
 
         public:
-            Menu(Image screenMainMenu, Image screenLoading, Image growingVine, Image manaBloc, Image getManaBloc, Image reloadManaBloc, Image reconstitutionManaBloc);
+            Menu(Image screenMainMenu, Image screenLoading, Image growingVine, Image manaBloc, Image getManaBloc, Image reloadManaBloc, Image reconstitutionManaBloc, int levelNumber);
             void drawMainMenu();
             void playFrame();
             void drawLoadingScreen();
+            void handleLevels();
     };
 #endif
