@@ -42,6 +42,11 @@ void GrowingPlant::growPlant()
                 this->frame = 0;
                 this->framePeriod += 0.0225;
                 this->size++;
+                if (this->size == this->maxSize)
+                {
+                    this->haveGrow = true;
+                    break;
+                }
                 if (this->horizontal)
                 {
                     this->rect.width += 32 * this->cam->scale;
@@ -52,11 +57,6 @@ void GrowingPlant::growPlant()
                     this->rect.height += 32 * this->cam->scale;
                     this->rect.y -= 32 * this->cam->scale;
                 }
-                if (this->size == this->maxSize)
-                {
-                    this->haveGrow = true;
-                    break;
-                }
             }
         }
     }
@@ -65,13 +65,25 @@ void GrowingPlant::growPlant()
 void GrowingPlant::startGrowing()
 {
     this->growing = true;
-    this->frame = 0;
-    this->framePeriod = 0.0225;
+    if (this->horizontal)
+    {
+        this->rect.width += 32 * this->cam->scale;
+        this->stateChange = true;
+    }
+    else
+    {
+        this->rect.height += 32 * this->cam->scale;
+        this->rect.y -= 32 * this->cam->scale;
+    }
 }
 
 bool GrowingPlant::isAround(Player* p)
 {
-    std::cout << this->rect.x << " " << this->rect.y << " " << this->rect.width << " " << this->rect.height << std::endl;
+    //std::cout << this->rect.x << " " << this->rect.y << " " << this->rect.width << " " << this->rect.height << std::endl;
+    if (this->growing)
+    {
+        return false;
+    }
     return (p->getRect().x + p->getRect().width - this->rect.x > -5 && this->rect.x + this->rect.width - p->getRect().x > -5 && p->getMana() >= this->requiredMana && this->rect.height != this->maxSize && this->rect.width != this->maxSize);
 }
 
@@ -85,7 +97,7 @@ void GrowingPlant::draw()
         }
         else
         {
-            DrawTextureRec(*sprite, {0, (float)(32 * this->frame * this->cam->scale), (float)(16 * this->cam->scale), (float)(32 * this->cam->scale)}, {this->rect.x - this->cam->x, this->rect.y - 32 * this->cam->scale - this->cam->y}, WHITE);
+            DrawTextureRec(*sprite, {0, (float)(32 * this->frame * this->cam->scale), (float)(16 * this->cam->scale), (float)(32 * this->cam->scale)}, {this->rect.x - this->cam->x, this->rect.y - this->cam->y}, WHITE);
         }
     }
     for (int i = 0; i < size; ++i)
@@ -97,7 +109,9 @@ void GrowingPlant::draw()
         }
         else
         {
-            DrawTextureRec(*sprite, {0, (float)(544 * this->cam->scale), (float)(16 * this->cam->scale), (float)(32 * this->cam->scale)}, {this->rect.x - this->cam->x, this->rect.y + 32 * i * this->cam->scale - this->cam->y}, WHITE);
+            int ni = i;
+            if (!this->haveGrow) ni++;
+            DrawTextureRec(*sprite, {0, (float)(544 * this->cam->scale), (float)(16 * this->cam->scale), (float)(32 * this->cam->scale)}, {this->rect.x - this->cam->x, this->rect.y + 32 * ni * this->cam->scale - this->cam->y}, WHITE);
             //DrawRectangle(this->rect.x - this->cam->x, this->rect.y + 32 * i * this->cam->scale - this->cam->y, 16 * this->cam->scale, 32 * this->cam->scale, ccolors.lightGreen);
         }
     }

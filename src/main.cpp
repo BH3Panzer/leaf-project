@@ -27,7 +27,7 @@ int main()
     while (!WindowShouldClose())
     {
         delta = GetFrameTime();
-        player.movement(level1.getPlatforms());
+        player.movement(level1.getPlatforms(), level1.getPlants());
         player.handleInterract(&level1);
         level1.actualisatePlant();
         player.manaDebugTest(); // Comment to deactivate debug of mana and modification

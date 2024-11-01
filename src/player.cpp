@@ -116,9 +116,26 @@ bool Player::isOnFloor(std::vector<Platform>& platforms)
 	return false;
 }
 
-void Player::movement(std::vector<Platform> platforms)
+bool Player::isOnGrowingVine(std::vector<GrowingPlant>& plants)
+{
+    for (auto& plant : plants)
+	{
+        if (!plant.isHorizontal())
+        {
+            Rectangle rectPlant = plant.getRect();
+            if (this->rect.x + this->rect.width > rectPlant.x && this->rect.x < rectPlant.x + rectPlant.width && this->rect.y + this->rect.height > rectPlant.y && this->rect.y < rectPlant.y + rectPlant.height)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+void Player::movement(std::vector<Platform> platforms, std::vector<GrowingPlant> plants)
 {
     const bool isOnFloor = this->isOnFloor(platforms);
+    const bool isOnGrowingVine = this->isOnGrowingVine(plants);
 
     if (!(this->pConcentration && isOnFloor))
     {
@@ -216,21 +233,35 @@ void Player::movement(std::vector<Platform> platforms)
         }
 
 
-        if (isOnFloor && this->vel.y == 0)
+        if (isOnFloor)
         {
             if (IsKeyDown(KEY_SPACE))
             {
                 this->vel.y = -this->jump;
             }
         }
-        else
+        if (isOnGrowingVine)
+        {
+            if (IsKeyDown(KEY_W))
+            {
+                this->vel.y -= *this->delta * this->climbingSpeed;
+                if (this->vel.y < -this->climbingMaxSpeed)
+                {
+                    this->vel.y = -this->climbingMaxSpeed;
+                }
+            }
+        }
+        if (!isOnFloor || this->vel.y != 0)
         {
             const int idCollision{this->detectCollision(platforms, false)};
 
             if (idCollision == -1)
             {
                 this->rect.y += this->vel.y * *this->delta;
-                this->vel.y += *this->delta * this->acceleration.y;
+                if (!(isOnGrowingVine && IsKeyDown(KEY_W)) || this->vel.y < -this->climbingMaxSpeed)
+                {
+                    this->vel.y += *this->delta * this->acceleration.y;
+                }
             }
             else
             {

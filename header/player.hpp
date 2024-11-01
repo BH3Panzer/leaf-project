@@ -19,6 +19,8 @@
             Vector2 velMax = {600, 2000};
             Vector2 acceleration = {6000, 3000};
             int jump = 900;
+            int climbingSpeed = 2000;
+            int climbingMaxSpeed = 400;
             Sprite sprite;
             Sprite spriteRun;
             Sprite spriteJump;
@@ -36,7 +38,8 @@
             Player(Cameraz* cam, float* delta, Image sprite, Image spriteRun, Image spriteJump, Image spriteConcetration, Image spriteGrow, Image spriteBridge);
             int detectCollision(std::vector<Platform>& platforms, bool horizontal = true) const;
             bool isOnFloor(std::vector<Platform>& platforms);
-            void movement(std::vector<Platform> platforms);
+            bool isOnGrowingVine(std::vector<GrowingPlant>& plants);
+            void movement(std::vector<Platform> platforms, std::vector<GrowingPlant> plants);
             void drawPlayer();
             int getMana();
             void setMana(unsigned int mana);
