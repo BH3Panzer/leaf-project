@@ -1,4 +1,5 @@
 #include "../header/player.hpp"
+#include <cstddef>
 #include <iostream>
 
 Player::Player(){}
@@ -480,7 +481,7 @@ void Player::handleInterract(Level* level)
                         if (this->plantAround != NULL)
                         {
                             this->pReady = true;
-                            this->mana -= this->plantAround->getRequiredMana();
+                            this->subMana(this->plantAround->getRequiredMana());
                         }
                         break;
                     }
@@ -493,6 +494,20 @@ void Player::handleInterract(Level* level)
                 this->framePeriod = 0;
                 this->pConcentration = false;
             }
+        }
+    }
+}
+
+void Player::recoverManaBloc(Level* level)
+{
+    ManaBloc* manaBlocRecolted = level->detectManaBloc();
+
+    if (manaBlocRecolted != NULL)
+    {
+        if (manaBlocRecolted->isLoad(true))
+        {
+            std::cout << manaBlocRecolted->getQuantityOfMana() << std::endl;
+            this->addMana(manaBlocRecolted->getQuantityOfMana());
         }
     }
 }

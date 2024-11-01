@@ -29,7 +29,7 @@
         void growPlant();
         void startGrowing();
         bool isAround(Player* p);
-        void draw(Texture2D*gVV, Texture2D* gVFLH, Texture2D* gVFRH);
+        void draw(Texture2D* gVV, Texture2D* gVFLH, Texture2D* gVFRH);
         bool isGrowing();
         int getId();
         void setId(int n);

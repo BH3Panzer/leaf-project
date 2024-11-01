@@ -1,5 +1,6 @@
 #include "../raylib/raylib.h"
 #include "../header/menu.hpp"
+#include "../header/imageImportation.hpp"
 #include <iostream>
 
 int main()
@@ -9,7 +10,7 @@ int main()
     Music mainMusic = LoadMusicStream("music/main.mp3");
     SetTargetFPS(60);
     
-    Menu menu{};
+    Menu menu{ImageCopy(screen_main_menu), ImageCopy(growing_vine), ImageCopy(mana_bloc), ImageCopy(get_mana_bloc), ImageCopy(reload_mana_bloc), ImageCopy(reconstitution_mana_bloc)};
     PlayMusicStream(mainMusic);
     while (!WindowShouldClose())
     {

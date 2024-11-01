@@ -28,5 +28,16 @@
 
     extern std::array<unsigned char, 5000> IMAGE_DATA_SCREEN_MAIN_MENU;
     extern Image screen_main_menu;
+    extern std::array<unsigned char, 5000> IMAGE_DATA_SCREEN_LOADING;
+    extern Image screen_loading;
+
+    extern std::array<unsigned char, 1024> IMAGE_DATA_MANA_BLOC;
+    extern Image mana_bloc;
+    extern std::array<unsigned char, 7168> IMAGE_DATA_GET_MANA_BLOC;
+    extern Image get_mana_bloc;
+    extern std::array<unsigned char, 8192> IMAGE_DATA_RELOAD_MANA_BLOC;
+    extern Image reload_mana_bloc;
+    extern std::array<unsigned char, 8192> IMAGE_DATA_RECONSTITUTION_MANA_BLOC;
+    extern Image reconstitution_mana_bloc;
 
 #endif

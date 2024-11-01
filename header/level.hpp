@@ -3,6 +3,7 @@
 
     #include "../header/platform.hpp"
     #include "../header/growingPlant.hpp"
+    #include "../header/manaBloc.hpp"
     #include <vector>
 
     class Player;
@@ -13,25 +14,34 @@
         private:
             std::vector<Platform> platforms;
             std::vector<GrowingPlant> plants;
+            std::vector<ManaBloc> manaBlocs;
             Player* p;
             Cameraz* cam;
-            Texture2D growingVineVertical;
-            Texture2D growingVineFLeftHorizontal;
-            Texture2D growingVineFRightHorizontal;
+            Texture2D* growingVineVertical;
+            Texture2D* growingVineFLeftHorizontal;
+            Texture2D* growingVineFRightHorizontal;
+            Texture2D* manaBloc;
+            Texture2D* getManaBloc;
+            Texture2D* reloadManaBloc;
+            Texture2D* reconstitutionManaBloc;
 
         public:
             void addPlatform(Platform plat);
             void addPlant(GrowingPlant plant);
+            void addManaBloc(ManaBloc mBloc);
             void drawLevel();
             std::vector<Platform> getPlatforms();
             std::vector<GrowingPlant> getPlants();
+            std::vector<ManaBloc> getManaBlocs();
             GrowingPlant* detectPlant();
+            ManaBloc* detectManaBloc();
             Level();
-            Level(Player* p, Cameraz* cam, Image growingVine);
+            Level(Player* p, Cameraz* cam, Texture2D* gVV, Texture2D* gVFLH, Texture2D* gVFRH, Texture2D* MB, Texture2D* GMB, Texture2D* RLMB, Texture2D* RCMB);
             void actualisatePlant();
+            void actualisateManaBlocs();
             Texture2D* getSprite(int n);
     };
 
-    Level createLevel(int numLevel, Cameraz* cam, Player* p, float* delta, Image growingVine);
+    Level createLevel(int numLevel, Cameraz* cam, Player* p, float* delta, Texture2D* gVV, Texture2D* gVFLH, Texture2D* gVFRH, Texture2D* MB, Texture2D* GMB, Texture2D* RLMB, Texture2D* RCMB);
 
 #endif

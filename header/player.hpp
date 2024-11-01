@@ -51,6 +51,7 @@
             Vector2 getVel();
             Vector2 getVelMax();
             void handleInterract(Level* level);
+            void recoverManaBloc(Level* level);
     };
 
 #endif
