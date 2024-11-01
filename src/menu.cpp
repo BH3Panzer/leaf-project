@@ -1,7 +1,19 @@
 #include "../header/menu.hpp"
 #include <iostream>
-Menu::Menu(Image screenMainMenu, Image growingVine, Image manaBloc, Image getManaBloc, Image reloadManaBloc, Image reconstitutionManaBloc)
+
+void Menu::drawLoadingScreen()
 {
+    BeginDrawing();
+    DrawTexture(this->screenLoading, 0, 0, WHITE);
+    EndDrawing();
+}
+
+Menu::Menu(Image screenMainMenu, Image screenLoading, Image growingVine, Image manaBloc, Image getManaBloc, Image reloadManaBloc, Image reconstitutionManaBloc)
+{
+    ImageResizeNN(&screenLoading, GetScreenWidth(), GetScreenHeight());
+    this->screenLoading = LoadTextureFromImage(screenLoading);
+    drawLoadingScreen();
+
     ImageResizeNN(&screenMainMenu, GetScreenWidth(), GetScreenHeight());
     this->screenMainMenu = LoadTextureFromImage(screenMainMenu);
 

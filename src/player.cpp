@@ -506,7 +506,6 @@ void Player::recoverManaBloc(Level* level)
     {
         if (manaBlocRecolted->isLoad(true))
         {
-            std::cout << manaBlocRecolted->getQuantityOfMana() << std::endl;
             this->addMana(manaBlocRecolted->getQuantityOfMana());
         }
     }

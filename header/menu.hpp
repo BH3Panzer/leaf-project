@@ -15,6 +15,7 @@
             Bar manaBar;
             Cameraz mainCamera;
 
+            Texture2D screenLoading;
             Texture2D screenMainMenu;
             Texture2D growingVineVertical;
             Texture2D growingVineFLeftHorizontal;
@@ -25,8 +26,9 @@
             Texture2D reconstitutionManaBloc;
 
         public:
-            Menu(Image screenMainMenu, Image growingVine, Image manaBloc, Image getManaBloc, Image reloadManaBloc, Image reconstitutionManaBloc);
+            Menu(Image screenMainMenu, Image screenLoading, Image growingVine, Image manaBloc, Image getManaBloc, Image reloadManaBloc, Image reconstitutionManaBloc);
             void drawMainMenu();
             void playFrame();
+            void drawLoadingScreen();
     };
 #endif
