@@ -26,11 +26,12 @@
             std::vector<Platform> getPlatforms();
             std::vector<GrowingPlant> getPlants();
             GrowingPlant* detectPlant();
+            Level();
             Level(Player* p, Cameraz* cam, Image growingVine);
             void actualisatePlant();
             Texture2D* getSprite(int n);
     };
 
-    Level createLevel1(Cameraz* cam, Player* p, float* delta, Image growingVine);
+    Level createLevel(int numLevel, Cameraz* cam, Player* p, float* delta, Image growingVine);
 
 #endif

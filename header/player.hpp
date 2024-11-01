@@ -35,6 +35,7 @@
             bool pReady = false;
 
         public:
+            Player();
             Player(Cameraz* cam, float* delta, Image sprite, Image spriteRun, Image spriteJump, Image spriteConcetration, Image spriteGrow, Image spriteBridge);
             int detectCollision(std::vector<Platform>& platforms, bool horizontal = true) const;
             bool isOnFloor(std::vector<Platform>& platforms);

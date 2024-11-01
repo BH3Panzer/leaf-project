@@ -3,8 +3,8 @@
 #include "../header/camera.hpp"
 #include "../header/player.hpp"
 #include <iostream>
-GrowingPlant::GrowingPlant(Rectangle rect, int maxSize, bool horizontal, int requiredMana, Cameraz* cam, float* delta, Texture2D* sprite): rect(rect), maxSize(maxSize), horizontal(horizontal),
-    requiredMana(requiredMana), cam(cam), delta(delta), sprite(sprite)
+GrowingPlant::GrowingPlant(Rectangle rect, int maxSize, bool horizontal, bool fromLeft, int requiredMana, Cameraz* cam, float* delta): rect(rect), maxSize(maxSize), horizontal(horizontal),
+    fromLeft(fromLeft), requiredMana(requiredMana), cam(cam), delta(delta)
 {
 }
 
@@ -49,8 +49,17 @@ void GrowingPlant::growPlant()
                 }
                 if (this->horizontal)
                 {
-                    this->rect.width += 32 * this->cam->scale;
-                    this->stateChange = true;
+                    if (this->fromLeft)
+                    {
+                        this->rect.width += 32 * this->cam->scale;
+                        this->stateChange = true;
+                    }
+                    else
+                    {
+                        this->rect.x -= 32 * this->cam->scale;
+                        this->rect.width += 32 * this->cam->scale;
+                        this->stateChange = true;
+                    }
                 }
                 else
                 {
@@ -67,8 +76,17 @@ void GrowingPlant::startGrowing()
     this->growing = true;
     if (this->horizontal)
     {
-        this->rect.width += 32 * this->cam->scale;
-        this->stateChange = true;
+        if (this->fromLeft)
+        {
+            this->rect.width += 32 * this->cam->scale;
+            this->stateChange = true;
+        }
+        else
+        {
+            this->rect.x -= 32 * this->cam->scale;
+            this->rect.width += 32 * this->cam->scale;
+            this->stateChange = true;
+        }
     }
     else
     {
@@ -87,32 +105,44 @@ bool GrowingPlant::isAround(Player* p)
     return (p->getRect().x + p->getRect().width - this->rect.x > -5 && this->rect.x + this->rect.width - p->getRect().x > -5 && p->getMana() >= this->requiredMana && this->rect.height != this->maxSize && this->rect.width != this->maxSize);
 }
 
-void GrowingPlant::draw()
+void GrowingPlant::draw(Texture2D*gVV, Texture2D* gVFLH, Texture2D* gVFRH)
 {
     if (this->growing && !this->haveGrow)
     {
         if (this->horizontal)
         {
-            DrawTextureRec(*sprite, {(float)(32 * (16 - this->frame) * this->cam->scale), 0, (float)(32 * this->cam->scale), (float)(16 * this->cam->scale)}, {this->rect.x + 32 * this->size * this->cam->scale - this->cam->x, this->rect.y - this->cam->y}, WHITE);
+            if (this->fromLeft)
+            {
+                DrawTextureRec(*gVFLH, {(float)(32 * (16 - this->frame) * this->cam->scale), 0, (float)(32 * this->cam->scale), (float)(16 * this->cam->scale)}, {this->rect.x + 32 * this->size * this->cam->scale - this->cam->x, this->rect.y - this->cam->y}, WHITE);
+            }
+            else
+            {
+                DrawTextureRec(*gVFRH, {(float)(32 * this->frame * this->cam->scale), 0, (float)(32 * this->cam->scale), (float)(16 * this->cam->scale)}, {this->rect.x - this->cam->x, this->rect.y - this->cam->y}, WHITE);
+            }
         }
         else
         {
-            DrawTextureRec(*sprite, {0, (float)(32 * this->frame * this->cam->scale), (float)(16 * this->cam->scale), (float)(32 * this->cam->scale)}, {this->rect.x - this->cam->x, this->rect.y - this->cam->y}, WHITE);
+            DrawTextureRec(*gVV, {0, (float)(32 * this->frame * this->cam->scale), (float)(16 * this->cam->scale), (float)(32 * this->cam->scale)}, {this->rect.x - this->cam->x, this->rect.y - this->cam->y}, WHITE);
         }
     }
     for (int i = 0; i < size; ++i)
     {
+        int ni = i;
+        if (!this->haveGrow) ni++;
         if (this->horizontal)
         {
-            DrawTextureRec(*sprite, {0, 0, (float)(32 * this->cam->scale), (float)(16 * this->cam->scale)}, {this->rect.x + 32 * i * this->cam->scale - this->cam->x, this->rect.y - this->cam->y}, WHITE);
-            //DrawRectangle(this->rect.x + 32 * i * this->cam->scale - this->cam->x, this->rect.y - this->cam->y, 32 * this->cam->scale, 16 * this->cam->scale, ccolors.lightGreen);
+            if (this->fromLeft)
+            {
+                DrawTextureRec(*gVFLH, {0, 0, (float)(32 * this->cam->scale), (float)(16 * this->cam->scale)}, {this->rect.x + 32 * i * this->cam->scale - this->cam->x, this->rect.y - this->cam->y}, WHITE);
+            }
+            else
+            {
+                DrawTextureRec(*gVFRH, {gVFRH->width - (float)(32 * this->cam->scale), 0, (float)(32 * this->cam->scale), (float)(16 * this->cam->scale)}, {this->rect.x + 32 * ni * this->cam->scale - this->cam->x, this->rect.y - this->cam->y}, WHITE);
+            }
         }
         else
         {
-            int ni = i;
-            if (!this->haveGrow) ni++;
-            DrawTextureRec(*sprite, {0, (float)(544 * this->cam->scale), (float)(16 * this->cam->scale), (float)(32 * this->cam->scale)}, {this->rect.x - this->cam->x, this->rect.y + 32 * ni * this->cam->scale - this->cam->y}, WHITE);
-            //DrawRectangle(this->rect.x - this->cam->x, this->rect.y + 32 * i * this->cam->scale - this->cam->y, 16 * this->cam->scale, 32 * this->cam->scale, ccolors.lightGreen);
+            DrawTextureRec(*gVV, {0, (float)(544 * this->cam->scale), (float)(16 * this->cam->scale), (float)(32 * this->cam->scale)}, {this->rect.x - this->cam->x, this->rect.y + 32 * ni * this->cam->scale - this->cam->y}, WHITE);
         }
     }
 }

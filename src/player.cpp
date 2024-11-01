@@ -1,6 +1,8 @@
 #include "../header/player.hpp"
 #include <iostream>
 
+Player::Player(){}
+
 Player::Player(Cameraz* cam, float* delta, Image sprite, Image spriteRun, Image spriteJump, Image spriteConcetration, Image spriteGrow, Image spriteBridge): cam(cam), delta(delta)
 {
     this->rect = {5, 5, (float)(12 * cam->scale), (float)(16 * cam->scale)};

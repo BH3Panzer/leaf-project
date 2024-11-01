@@ -18,11 +18,10 @@
         int frame = -1;
         float framePeriod = 0;
         float* delta;
-        Texture2D* sprite;
         int id = -1;
         bool stateChange = false;
     public:
-        GrowingPlant(Rectangle rect, int maxSize, bool horizontal, int requiredMana, Cameraz* cam, float* delta, Texture2D* sprite);
+        GrowingPlant(Rectangle rect, int maxSize, bool horizontal, bool fromLeft, int requiredMana, Cameraz* cam, float* delta);
         Rectangle getRect(bool stateOk = false);
         int getMawSize();
         bool isHorizontal();
@@ -30,7 +29,7 @@
         void growPlant();
         void startGrowing();
         bool isAround(Player* p);
-        void draw();
+        void draw(Texture2D*gVV, Texture2D* gVFLH, Texture2D* gVFRH);
         bool isGrowing();
         int getId();
         void setId(int n);

@@ -1,7 +1,8 @@
-#include "../raylib/raylib.h"
-#include "../header/camera.hpp"
 #ifndef BAR
     #define BAR
+    #include "../raylib/raylib.h"
+    #include "../header/camera.hpp"
+
     class Bar {
     private:
         int max;
@@ -12,6 +13,7 @@
         Cameraz* cam;
 
     public:
+        Bar();
         Bar(int max, int current, Color col, Color borderCol, Rectangle rect, Cameraz* cam);
         int getMax();
         int getCurrent();

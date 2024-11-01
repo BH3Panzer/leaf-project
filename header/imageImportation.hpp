@@ -26,4 +26,7 @@
     extern std::array<unsigned char, 10000> IMAGE_DATA_TEXTURES_PLATEFORMS;
     extern Image textures_plateformes;
 
+    extern std::array<unsigned char, 5000> IMAGE_DATA_SCREEN_MAIN_MENU;
+    extern Image screen_main_menu;
+
 #endif

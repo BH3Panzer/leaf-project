@@ -3,6 +3,8 @@
 #include "../header/player.hpp"
 #include <iostream>
 
+Level::Level(){}
+
 void Level::addPlatform(Platform plat)
 {
     this->platforms.push_back(plat);
@@ -24,7 +26,7 @@ void Level::drawLevel()
     }
 
     for (GrowingPlant plant : this->plants) {
-        plant.draw();
+        plant.draw(&this->growingVineVertical, &this->growingVineFLeftHorizontal, &this->growingVineFRightHorizontal);
     }
     return;
 }
@@ -48,24 +50,27 @@ Level::Level(Player* p, Cameraz* cam, Image growingVine) : p(p), cam(cam)
     this->growingVineFRightHorizontal = LoadTextureFromImage(growingVine);
 }
 
-Level createLevel1(Cameraz* cam, Player* p, float* delta, Image growingVine)
+Level createLevel(int numLevel, Cameraz* cam, Player* p, float* delta, Image growingVine)
 {
-    Level level1(p, cam, growingVine);
+    Level level(p, cam, growingVine);
 
-    Platform ground({0, static_cast<float>(GetScreenHeight()/1.5), 8000, 300}, ccolors.brown, cam);
-    Platform isle1({500, 250, 100, 48}, ccolors.brown, cam);
-    Platform isle2({800, 150, 100, 48}, ccolors.brown, cam);
+    if (numLevel == 1)
+    {
+        Platform ground({0, static_cast<float>(GetScreenHeight()/1.5), 8000, 300}, ccolors.brown, cam);
+        Platform isle1({500, 250, 100, 48}, ccolors.brown, cam);
+        Platform isle2({800, 150, 100, 48}, ccolors.brown, cam);
 
-    GrowingPlant test({950, ground.getRectangle().y, (float)(16 * cam->scale), 0}, 5, false, 0, cam, delta, level1.getSprite(0));
-    GrowingPlant test2({isle1.getRectangle().x + isle1.getRectangle().width, isle1.getRectangle().y, 0, (float)(16 * cam->scale)}, 10, true, 15, cam, delta, level1.getSprite(1));
+        GrowingPlant test({950, ground.getRectangle().y, (float)(16 * cam->scale), 0}, 5, false, false, 0, cam, delta);
+        GrowingPlant test2({isle1.getRectangle().x + isle1.getRectangle().width, isle1.getRectangle().y, 0, (float)(16 * cam->scale)}, 10, true, true, 15, cam, delta);
 
-    level1.addPlatform(ground);
-    level1.addPlatform(isle1);
-    level1.addPlatform(isle2);
-    level1.addPlant(test);
-    level1.addPlant(test2);
+        level.addPlatform(ground);
+        level.addPlatform(isle1);
+        level.addPlatform(isle2);
+        level.addPlant(test);
+        level.addPlant(test2);
+    }
 
-    return level1;
+    return level;
 }
 
 GrowingPlant* Level::detectPlant() {

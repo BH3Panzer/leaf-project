@@ -1,5 +1,7 @@
 #include "../header/guiBar.hpp"
 
+Bar::Bar(){}
+
 Bar::Bar(int max, int current, Color col, Color borderCol, Rectangle rect, Cameraz* cam) {
     this->max = max;
     this->current = current;
