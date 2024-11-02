@@ -26,6 +26,7 @@
             Texture2D* reconstitutionManaBloc;
             bool finished = false;
             Rectangle end;
+            Texture2D* texturesPlateformes;
 
         public:
             void addPlatform(Platform plat);
@@ -38,7 +39,7 @@
             GrowingPlant* detectPlant();
             ManaBloc* detectManaBloc();
             Level();
-            Level(Player* p, Cameraz* cam, Texture2D* gVV, Texture2D* gVFLH, Texture2D* gVFRH, Texture2D* MB, Texture2D* GMB, Texture2D* RLMB, Texture2D* RCMB);
+            Level(Player* p, Cameraz* cam, Texture2D* gVV, Texture2D* gVFLH, Texture2D* gVFRH, Texture2D* MB, Texture2D* GMB, Texture2D* RLMB, Texture2D* RCMB, Texture2D* texturesPlateformes);
             void actualisatePlant();
             void actualisateManaBlocs();
             Texture2D* getSprite(int n);
@@ -50,6 +51,6 @@
             void checkLevelFinished();
     };
 
-    Level createLevel(int numLevel, Cameraz* cam, Player* p, float* delta, Texture2D* gVV, Texture2D* gVFLH, Texture2D* gVFRH, Texture2D* MB, Texture2D* GMB, Texture2D* RLMB, Texture2D* RCMB);
+    Level createLevel(int numLevel, Cameraz* cam, Player* p, float* delta, Texture2D* gVV, Texture2D* gVFLH, Texture2D* gVFRH, Texture2D* MB, Texture2D* GMB, Texture2D* RLMB, Texture2D* RCMB, Texture2D* texturesPlateformes);
 
 #endif

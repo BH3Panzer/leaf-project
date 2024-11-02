@@ -23,7 +23,7 @@
 
     extern std::array<unsigned char, 36864> IMAGE_DATA_GROWING_VINE;
     extern Image growing_vine;
-    extern std::array<unsigned char, 10000> IMAGE_DATA_TEXTURES_PLATEFORMS;
+    extern std::array<unsigned char, 10240> IMAGE_DATA_TEXTURES_PLATEFORMS;
     extern Image textures_plateformes;
 
     extern std::array<unsigned char, 5000> IMAGE_DATA_SCREEN_MAIN_MENU;

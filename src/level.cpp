@@ -53,22 +53,23 @@ std::vector<ManaBloc> Level::getManaBlocs() {
     return this->manaBlocs;
 }
 
-Level::Level(Player* p, Cameraz* cam, Texture2D* gVV, Texture2D* gVFLH, Texture2D* gVFRH, Texture2D* MB, Texture2D* GMB, Texture2D* RLMB, Texture2D* RCMB) : p(p), cam(cam),
-    growingVineVertical(gVV), growingVineFLeftHorizontal(gVFLH), growingVineFRightHorizontal(gVFRH), manaBloc(MB), getManaBloc(GMB), reloadManaBloc(RLMB), reconstitutionManaBloc(RCMB)
+Level::Level(Player* p, Cameraz* cam, Texture2D* gVV, Texture2D* gVFLH, Texture2D* gVFRH, Texture2D* MB, Texture2D* GMB, Texture2D* RLMB, Texture2D* RCMB, Texture2D* texturesPlateformes) : 
+    p(p), cam(cam), growingVineVertical(gVV), growingVineFLeftHorizontal(gVFLH), growingVineFRightHorizontal(gVFRH), manaBloc(MB), getManaBloc(GMB),
+    reloadManaBloc(RLMB), reconstitutionManaBloc(RCMB), texturesPlateformes(texturesPlateformes)
 {
 }
 
-Level createLevel(int numLevel, Cameraz* cam, Player* p, float* delta, Texture2D* gVV, Texture2D* gVFLH, Texture2D* gVFRH, Texture2D* MB, Texture2D* GMB, Texture2D* RLMB, Texture2D* RCMB)
+Level createLevel(int numLevel, Cameraz* cam, Player* p, float* delta, Texture2D* gVV, Texture2D* gVFLH, Texture2D* gVFRH, Texture2D* MB, Texture2D* GMB, Texture2D* RLMB, Texture2D* RCMB, Texture2D* texturesPlateformes)
 {
-    Level level(p, cam, gVV, gVFLH, gVFRH, MB, GMB, RLMB, RCMB);
+    Level level(p, cam, gVV, gVFLH, gVFRH, MB, GMB, RLMB, RCMB, texturesPlateformes);
 
     level.unfinish();
 
     if (numLevel == 1)
     {
-        Platform ground({0, static_cast<float>(GetScreenHeight()/1.5), 8000, 300}, ccolors.brown, cam);
-        Platform isle1({500, 250, 100, 48}, ccolors.brown, cam);
-        Platform isle2({800, 150, 100, 48}, ccolors.brown, cam);
+        Platform ground({0, static_cast<float>(GetScreenHeight()/1.5), 120, 20}, ccolors.brown, cam, texturesPlateformes);
+        Platform isle1({500, 250, 3, 1}, ccolors.brown, cam, texturesPlateformes);
+        Platform isle2({800, 150, 3, 1}, ccolors.brown, cam, texturesPlateformes);
 
         GrowingPlant test({950, ground.getRectangle().y, (float)(16 * cam->scale), 0}, 5, false, false, 0, cam, delta);
         GrowingPlant test2({isle1.getRectangle().x + isle1.getRectangle().width, isle1.getRectangle().y, 0, (float)(16 * cam->scale)}, 10, true, true, 15, cam, delta);
@@ -86,8 +87,8 @@ Level createLevel(int numLevel, Cameraz* cam, Player* p, float* delta, Texture2D
         level.setFinishRect({5000, ground.getRectangle().y - 32, 32, 32});
     }
     else if (numLevel == 2) {
-        Platform ground({0, static_cast<float>(GetScreenHeight()/1.5), 8000, 300}, ccolors.brown, cam);
-        Platform isle1({150, 150, 800, 48}, ccolors.brown, cam);
+        Platform ground({0, static_cast<float>(GetScreenHeight()/1.5), 8000, 300}, ccolors.brown, cam, texturesPlateformes);
+        Platform isle1({150, 150, 800, 48}, ccolors.brown, cam, texturesPlateformes);
 
         level.addPlatform(ground);
         level.addPlatform(isle1);
@@ -134,7 +135,7 @@ void Level::actualisatePlant()
             if (plant.getId() == -1)
             {
                 plant.setId(this->plants.size()+1);
-                this->addPlatform({plant.getRect(), {}, NULL});
+                this->addPlatform({plant.getRect(), {}, NULL, NULL, true});
             }
             else
             {

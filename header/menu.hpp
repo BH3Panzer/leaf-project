@@ -25,9 +25,10 @@
             Texture2D getManaBloc;
             Texture2D reloadManaBloc;
             Texture2D reconstitutionManaBloc;
+            Texture2D texturesPlateformes;
 
         public:
-            Menu(Image screenMainMenu, Image screenLoading, Image growingVine, Image manaBloc, Image getManaBloc, Image reloadManaBloc, Image reconstitutionManaBloc, int levelNumber);
+            Menu(Image screenMainMenu, Image screenLoading, Image growingVine, Image manaBloc, Image getManaBloc, Image reloadManaBloc, Image reconstitutionManaBloc, Image texturesPlateformes, int levelNumber);
             void drawMainMenu();
             void playFrame();
             void drawLoadingScreen();
