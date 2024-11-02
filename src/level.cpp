@@ -87,8 +87,8 @@ Level createLevel(int numLevel, Cameraz* cam, Player* p, float* delta, Texture2D
         level.setFinishRect({5000, ground.getRectangle().y - 32, 32, 32});
     }
     else if (numLevel == 2) {
-        Platform ground({0, static_cast<float>(GetScreenHeight()/1.5), 8000, 300}, ccolors.brown, cam, texturesPlateformes);
-        Platform isle1({150, 150, 800, 48}, ccolors.brown, cam, texturesPlateformes);
+        Platform ground({0, static_cast<float>(GetScreenHeight()/1.5), 120, 20}, ccolors.brown, cam, texturesPlateformes);
+        Platform isle1({150, 200, 10, 5}, ccolors.brown, cam, texturesPlateformes);
 
         level.addPlatform(ground);
         level.addPlatform(isle1);
