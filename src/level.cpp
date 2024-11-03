@@ -89,15 +89,8 @@ Level createLevel(int numLevel, Cameraz* cam, Player* p, float* delta, Texture2D
         level.addPlatform(beginWall);
         level.addPlatform(isle1);
         level.addPlatform(isle2);
-<<<<<<< HEAD
         level.setFinishRect({5000, ground.getRectangle().y - 32, 32, 32});
-=======
-        level.addPlant(test);
-        level.addPlant(test2);
-        level.addManaBloc(mbTest);
-        level.addManaBloc(mbTest2);
-        level.setFinishRect({5000, ground.getRectangle().y - 96, 96, 96});
->>>>>>> fraii
+
     }
     else if (numLevel == 2) {
         Platform ground({0, static_cast<float>(GetScreenHeight()/1.5), 120, 20}, ccolors.brown, cam, texturesPlateformes);
