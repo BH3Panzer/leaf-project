@@ -9,7 +9,7 @@ void Menu::drawLoadingScreen()
 }
 
 
-Menu::Menu(Image screenMainMenu, Image screenLoading, Image growingVine, Image manaBloc, Image getManaBloc, Image reloadManaBloc, Image reconstitutionManaBloc, Image texturesPlateformes, int levelNumber)
+Menu::Menu(Image screenMainMenu, Image screenLoading, Image growingVine, Image manaBloc, Image getManaBloc, Image reloadManaBloc, Image reconstitutionManaBloc, Image texturesPlateformes, Image endLevel, int levelNumber)
 {
     ImageResizeNN(&screenLoading, GetScreenWidth(), GetScreenHeight());
     this->screenLoading = LoadTextureFromImage(screenLoading);
@@ -17,6 +17,8 @@ Menu::Menu(Image screenMainMenu, Image screenLoading, Image growingVine, Image m
 
     ImageResizeNN(&screenMainMenu, GetScreenWidth(), GetScreenHeight());
     this->screenMainMenu = LoadTextureFromImage(screenMainMenu);
+    ImageResizeNN(&endLevel, (int)(32 * mainCamera.scale), (int)(32 * mainCamera.scale));
+    this->endLevel = LoadTextureFromImage(endLevel);
 
     ImageResizeNN(&growingVine, (int)(16 * mainCamera.scale), (int)(576 * mainCamera.scale));
     this->growingVineVertical = LoadTextureFromImage(growingVine);
@@ -42,7 +44,7 @@ Menu::Menu(Image screenMainMenu, Image screenLoading, Image growingVine, Image m
 
     this->manaBar = Bar(20, player.getMana(), ccolors.lightGreen, ccolors.white, {15, 15, 300, 25}, &mainCamera);
     this->level = createLevel(levelNumber, &mainCamera, &player, &delta, &this->growingVineVertical, &this->growingVineFLeftHorizontal, &this->growingVineFRightHorizontal,
-        &this->manaBloc, &this->getManaBloc, &this->reloadManaBloc, &this->reconstitutionManaBloc, &this->texturesPlateformes);
+        &this->manaBloc, &this->getManaBloc, &this->reloadManaBloc, &this->reconstitutionManaBloc, &this->texturesPlateformes, &this->endLevel);
     this->levelNumber = levelNumber;
 
 }
@@ -80,7 +82,7 @@ void Menu::handleLevels() {
     if (this->level.isFinished()) {
         this->levelNumber += 1;
         this->level = createLevel(this->levelNumber, &this->mainCamera, &this->player, &this->delta, &this->growingVineVertical, &this->growingVineFLeftHorizontal, &this->growingVineFRightHorizontal,
-        &this->manaBloc, &this->getManaBloc, &this->reloadManaBloc, &this->reconstitutionManaBloc, &this->texturesPlateformes);
+        &this->manaBloc, &this->getManaBloc, &this->reloadManaBloc, &this->reconstitutionManaBloc, &this->texturesPlateformes, &this->endLevel);
         this->player.setPosition(5, 5);
     }
 }

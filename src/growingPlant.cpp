@@ -106,22 +106,43 @@ bool GrowingPlant::isAround(Player* p)
 
 void GrowingPlant::draw(Texture2D*gVV, Texture2D* gVFLH, Texture2D* gVFRH)
 {
-    if (this->growing && !this->haveGrow)
+    if (!this->haveGrow)
     {
-        if (this->horizontal)
+        if (this->growing)
         {
-            if (this->fromLeft)
+            if (this->horizontal)
             {
-                DrawTextureRec(*gVFLH, {(float)(32 * (16 - this->frame) * this->cam->scale), 0, (float)(32 * this->cam->scale), (float)(16 * this->cam->scale)}, {this->rect.x + 32 * this->size * this->cam->scale - this->cam->x, this->rect.y - this->cam->y}, WHITE);
+                if (this->fromLeft)
+                {
+                    DrawTextureRec(*gVFLH, {(float)(32 * (16 - this->frame) * this->cam->scale), 0, (float)(32 * this->cam->scale), (float)(16 * this->cam->scale)}, {this->rect.x + 32 * this->size * this->cam->scale - this->cam->x, this->rect.y - this->cam->y}, WHITE);
+                }
+                else
+                {
+                    DrawTextureRec(*gVFRH, {(float)(32 * this->frame * this->cam->scale), 0, (float)(32 * this->cam->scale), (float)(16 * this->cam->scale)}, {this->rect.x - this->cam->x, this->rect.y - this->cam->y}, WHITE);
+                }
             }
             else
             {
-                DrawTextureRec(*gVFRH, {(float)(32 * this->frame * this->cam->scale), 0, (float)(32 * this->cam->scale), (float)(16 * this->cam->scale)}, {this->rect.x - this->cam->x, this->rect.y - this->cam->y}, WHITE);
+                DrawTextureRec(*gVV, {0, (float)(32 * this->frame * this->cam->scale), (float)(16 * this->cam->scale), (float)(32 * this->cam->scale)}, {this->rect.x - this->cam->x, this->rect.y - this->cam->y}, WHITE);
             }
         }
         else
         {
-            DrawTextureRec(*gVV, {0, (float)(32 * this->frame * this->cam->scale), (float)(16 * this->cam->scale), (float)(32 * this->cam->scale)}, {this->rect.x - this->cam->x, this->rect.y - this->cam->y}, WHITE);
+            if (this->horizontal)
+            {
+                if (this->fromLeft)
+                {
+                    DrawTextureRec(*gVFLH, {(float)(512 * this->cam->scale), 0, (float)(32 * this->cam->scale), (float)(16 * this->cam->scale)}, {this->rect.x - this->cam->x, this->rect.y - this->cam->y}, WHITE);
+                }
+                else
+                {
+                    DrawTextureRec(*gVFRH, {0, 0, (float)(32 * this->cam->scale), (float)(16 * this->cam->scale)}, {this->rect.x - 32 * this->cam->scale - this->cam->x, this->rect.y - this->cam->y}, WHITE);
+                }
+            }
+            else
+            {
+                DrawTextureRec(*gVV, {0, 0, (float)(16 * this->cam->scale), (float)(32 * this->cam->scale)}, {this->rect.x - this->cam->x, this->rect.y - 32 * this->cam->scale - this->cam->y}, WHITE);
+            }
         }
     }
     for (int i = 0; i < size; ++i)

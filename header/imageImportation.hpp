@@ -30,6 +30,8 @@
     extern Image screen_main_menu;
     extern std::array<unsigned char, 5000> IMAGE_DATA_SCREEN_LOADING;
     extern Image screen_loading;
+    extern std::array<unsigned char, 4096> IMAGE_DATA_END_LEVEL;
+    extern Image end_level; 
 
     extern std::array<unsigned char, 1024> IMAGE_DATA_MANA_BLOC;
     extern Image mana_bloc;
