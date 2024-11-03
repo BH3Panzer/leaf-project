@@ -19,9 +19,12 @@ Platform::Platform(Rectangle rect, Color col, Cameraz* cam, Texture2D* sprite, b
     this->cam = cam;
     this->sprite = sprite;
     this->plant = plant;
-    for (int i = 0; i < this->width * this-> height; ++i)
+    if (!plant)
     {
-        this->texturePattern.push_back(GetRandomValue(0, 9));
+        for (int i = 0; i < this->width * this-> height; ++i)
+        {
+            this->texturePattern.push_back(GetRandomValue(0, 9));
+        }
     }
 }
 

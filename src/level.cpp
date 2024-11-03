@@ -135,7 +135,8 @@ void Level::actualisatePlant()
             if (plant.getId() == -1)
             {
                 plant.setId(this->plants.size()+1);
-                this->addPlatform({plant.getRect(), {}, NULL, NULL, true});
+                Platform plat{plant.getRect(true), {WHITE}, this->cam, this->texturesPlateformes, true};
+                this->addPlatform(plat);
             }
             else
             {

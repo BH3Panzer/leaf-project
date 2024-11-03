@@ -79,14 +79,13 @@ void GrowingPlant::startGrowing()
         if (this->fromLeft)
         {
             this->rect.width += 32 * this->cam->scale;
-            this->stateChange = true;
         }
         else
         {
             this->rect.x -= 32 * this->cam->scale;
             this->rect.width += 32 * this->cam->scale;
-            this->stateChange = true;
         }
+        this->stateChange = true;
     }
     else
     {
