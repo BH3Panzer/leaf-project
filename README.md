@@ -10,7 +10,7 @@ It's a platformer with puzzling mind.
 
 ## Features:
 Game introduce into connected nature, we can modify fastly the nature to finish the levels.
-- Grow plants with your mana.
+- Grow plants with your mana. (/!\ mana cost not displayed)
 - Move, jump and climb
 
 ## Controls:
