@@ -62,8 +62,8 @@ void Menu::playFrame()
     this->level.actualisatePlant();
     this->player.recoverManaBloc(&this->level);
     this->level.actualisateManaBlocs();
-    this->player.manaDebugTest(); // Comment to deactivate debug of mana and modification
-    cameraDebugTest(&this->mainCamera); // Comment to deactivate debug of camera scale
+    // this->player.manaDebugTest(); // Comment to deactivate debug of mana and modification
+    // cameraDebugTest(&this->mainCamera); // Comment to deactivate debug of camera scale
     cameraFollowPlayerF(&this->mainCamera, &this->player, this->delta);
     cameraMove(&this->mainCamera, this->delta);
     this->handleLevels();
