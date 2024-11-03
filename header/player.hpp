@@ -2,6 +2,7 @@
     #define PLAYER
     #include "../header/level.hpp"
     #include <cstddef>
+    #include <iostream>
 
     struct Sprite
     {

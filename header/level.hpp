@@ -31,9 +31,9 @@
             Texture2D* endLevel;
 
         public:
-            void addPlatform(Platform plat);
-            void addPlant(GrowingPlant plant);
-            void addManaBloc(ManaBloc mBloc);
+            void addPlatform(Platform &plat);
+            void addPlant(GrowingPlant &plant);
+            void addManaBloc(ManaBloc &mBloc);
             void drawLevel();
             std::vector<Platform> getPlatforms();
             std::vector<GrowingPlant> getPlants();

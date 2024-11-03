@@ -19,7 +19,7 @@
             std::vector<int> texturePattern = {};
 
         public:
-            Platform(Rectangle rect, Color col, Cameraz* cam, Texture2D* sprite, bool plant = false);
+            Platform(Rectangle rect, Color col, Cameraz* cam, Texture2D* sprite, bool plant);
             void drawPlatform();
             Rectangle getRectangle();
             Color getColor();
