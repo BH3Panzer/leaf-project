@@ -36,16 +36,15 @@ void Level::drawLevel()
     for (ManaBloc mBloc : this->manaBlocs) {
         mBloc.draw(this->manaBloc, this->getManaBloc, this->reloadManaBloc, this->reconstitutionManaBloc);
     }
-<<<<<<< HEAD
+
     DrawRectangle(this->end.x - this->cam->x, this->end.y - this->cam->y, this->end.width, this->end.height, ccolors.red);
     if (this->id == 1) {
         DrawText("Move with [WASD] or [ZQSD]", 60 - this->cam->x, 200 - this->cam->y, 24, ccolors.black);
         DrawText("Jump with [SPACE]", 52*16 - this->cam->x, 200 - this->cam->y, 24, ccolors.black);
     }
-=======
+
     DrawTexture(*this->endLevel, this->end.x - this->cam->x, this->end.y - this->cam->y, WHITE);
     //DrawRectangle(this->end.x - this->cam->x, this->end.y - this->cam->y, this->end.width, this->end.height, ccolors.red);
->>>>>>> fraii
     return;
 }
 
