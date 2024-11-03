@@ -54,7 +54,7 @@ void Platform::drawPlatform()
     {
         for (int y = 0; y < this->height; ++y)
         {
-            DrawTextureRec(*sprite, {(float)(16 * this->cam->scale * texturePattern[(x * y + x)]), 0, (float)(16 * this->cam->scale), (float)(16 * this->cam->scale)}, {this->rect.x + x * 16 * this->cam->scale - this->cam->x, this->rect.y + y * 16 * this->cam->scale - this->cam->y}, WHITE);
+            DrawTextureRec(*sprite, {(float)(16 * this->cam->scale * texturePattern[(this->width * y + x)]), 0, (float)(16 * this->cam->scale), (float)(16 * this->cam->scale)}, {this->rect.x + x * 16 * this->cam->scale - this->cam->x, this->rect.y + y * 16 * this->cam->scale - this->cam->y}, WHITE);
         }
     }
     //DrawRectangle(this->rect.x - this->cam->x, this->rect.y - this->cam->y, this->rect.width, this->rect.height, this->col);

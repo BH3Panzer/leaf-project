@@ -16,7 +16,7 @@
             Vector2 vel = {0, 0};
             Cameraz* cam;
             float* delta;
-            int mana = 20;
+            int mana = 0;
             Vector2 velMax = {600, 2000};
             Vector2 acceleration = {6000, 3000};
             int jump = 900;

@@ -37,6 +37,10 @@ void Level::drawLevel()
         mBloc.draw(this->manaBloc, this->getManaBloc, this->reloadManaBloc, this->reconstitutionManaBloc);
     }
     DrawRectangle(this->end.x - this->cam->x, this->end.y - this->cam->y, this->end.width, this->end.height, ccolors.red);
+    if (this->id == 1) {
+        DrawText("Move with [WASD] or [ZQSD]", 60 - this->cam->x, 200 - this->cam->y, 24, ccolors.black);
+        DrawText("Jump with [SPACE]", 52*16 - this->cam->x, 200 - this->cam->y, 24, ccolors.black);
+    }
     return;
 }
 
@@ -53,37 +57,30 @@ std::vector<ManaBloc> Level::getManaBlocs() {
     return this->manaBlocs;
 }
 
-Level::Level(Player* p, Cameraz* cam, Texture2D* gVV, Texture2D* gVFLH, Texture2D* gVFRH, Texture2D* MB, Texture2D* GMB, Texture2D* RLMB, Texture2D* RCMB, Texture2D* texturesPlateformes) : 
+Level::Level(Player* p, Cameraz* cam, Texture2D* gVV, Texture2D* gVFLH, Texture2D* gVFRH, Texture2D* MB, Texture2D* GMB, Texture2D* RLMB, Texture2D* RCMB, Texture2D* texturesPlateformes, int id) : 
     p(p), cam(cam), growingVineVertical(gVV), growingVineFLeftHorizontal(gVFLH), growingVineFRightHorizontal(gVFRH), manaBloc(MB), getManaBloc(GMB),
-    reloadManaBloc(RLMB), reconstitutionManaBloc(RCMB), texturesPlateformes(texturesPlateformes)
+    reloadManaBloc(RLMB), reconstitutionManaBloc(RCMB), texturesPlateformes(texturesPlateformes), id(id)
 {
 }
 
 Level createLevel(int numLevel, Cameraz* cam, Player* p, float* delta, Texture2D* gVV, Texture2D* gVFLH, Texture2D* gVFRH, Texture2D* MB, Texture2D* GMB, Texture2D* RLMB, Texture2D* RCMB, Texture2D* texturesPlateformes)
 {
-    Level level(p, cam, gVV, gVFLH, gVFRH, MB, GMB, RLMB, RCMB, texturesPlateformes);
+    Level level(p, cam, gVV, gVFLH, gVFRH, MB, GMB, RLMB, RCMB, texturesPlateformes, numLevel);
 
     level.unfinish();
 
     if (numLevel == 1)
     {
         Platform ground({0, static_cast<float>(GetScreenHeight()/1.5), 120, 20}, ccolors.brown, cam, texturesPlateformes);
-        Platform isle1({500, 250, 3, 1}, ccolors.brown, cam, texturesPlateformes);
-        Platform isle2({800, 150, 3, 1}, ccolors.brown, cam, texturesPlateformes);
+        Platform beginWall({-48, 0, 1, 20}, ccolors.brown, cam, texturesPlateformes);
+        Platform isle1({64*16, 250, 3, 1}, ccolors.brown, cam, texturesPlateformes);
+        Platform isle2({72*16, 150, 3, 1}, ccolors.brown, cam, texturesPlateformes);
 
-        GrowingPlant test({950, ground.getRectangle().y, (float)(16 * cam->scale), 0}, 5, false, false, 0, cam, delta);
-        GrowingPlant test2({isle1.getRectangle().x + isle1.getRectangle().width, isle1.getRectangle().y, 0, (float)(16 * cam->scale)}, 10, true, true, 15, cam, delta);
-
-        ManaBloc mbTest(840, 80, 5, 3, cam, delta);
-        ManaBloc mbTest2(1040, 300, 50, 10, cam, delta);
 
         level.addPlatform(ground);
+        level.addPlatform(beginWall);
         level.addPlatform(isle1);
         level.addPlatform(isle2);
-        level.addPlant(test);
-        level.addPlant(test2);
-        level.addManaBloc(mbTest);
-        level.addManaBloc(mbTest2);
         level.setFinishRect({5000, ground.getRectangle().y - 32, 32, 32});
     }
     else if (numLevel == 2) {
