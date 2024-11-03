@@ -37,10 +37,13 @@ void Level::drawLevel()
         mBloc.draw(this->manaBloc, this->getManaBloc, this->reloadManaBloc, this->reconstitutionManaBloc);
     }
 
-    DrawRectangle(this->end.x - this->cam->x, this->end.y - this->cam->y, this->end.width, this->end.height, ccolors.red);
     if (this->id == 1) {
         DrawText("Move with [WASD] or [ZQSD]", 60 - this->cam->x, 200 - this->cam->y, 24, ccolors.black);
         DrawText("Jump with [SPACE]", 52*16 - this->cam->x, 200 - this->cam->y, 24, ccolors.black);
+        DrawText("This is a mana block, go on it to take mana, it will rechage", 65*16 - this->cam->x, 55 - this->cam->y, 24, ccolors.black);
+        DrawText("Your maximum mana capacity is 20", 120*16 - this->cam->x, 200 - this->cam->y, 24, ccolors.black);
+        DrawText("The bar in top left corner represent your mana", 170*16 - this->cam->x, 200 - this->cam->y, 24, ccolors.black);
+        DrawText("This door ends the level", 305*16 - this->cam->x, -16 - this->cam->y, 24, ccolors.black);
     }
 
     DrawTexture(*this->endLevel, this->end.x - this->cam->x, this->end.y - this->cam->y, WHITE);
@@ -82,13 +85,25 @@ Level createLevel(int numLevel, Cameraz* cam, Player* p, float* delta, Texture2D
         Platform beginWall({-48, 0, 1, 20}, ccolors.brown, cam, texturesPlateformes);
         Platform isle1({64*16, 250, 3, 1}, ccolors.brown, cam, texturesPlateformes);
         Platform isle2({72*16, 150, 3, 1}, ccolors.brown, cam, texturesPlateformes);
+        Platform isle3({275*16, 75, 2, 1}, ccolors.brown, cam, texturesPlateformes);
 
+        ManaBloc tutoFirstMana(isle2.getRectangle().x + 3*16, isle2.getRectangle().y - 3*16, 5, 10, cam, delta);
+
+        GrowingPlant vine1({isle3.getRectangle().x-1*16*cam->scale, ground.getRectangle().y, (float)16*cam->scale, 0}, 6, false, false, 1, cam, delta);
+        GrowingPlant roots1({isle3.getRectangle().x, isle3.getRectangle().y, 0, (float)16*cam->scale}, 7, true, false, 2, cam, delta);
 
         level.addPlatform(ground);
         level.addPlatform(beginWall);
         level.addPlatform(isle1);
         level.addPlatform(isle2);
-        level.setFinishRect({5000, ground.getRectangle().y - 32, 32, 32});
+        level.addPlatform(isle3);
+
+        level.addManaBloc(tutoFirstMana);
+
+        level.addPlant(vine1);
+        level.addPlant(roots1);
+
+        level.setFinishRect({321*16, 75 - 96, 96, 96});
 
     }
     else if (numLevel == 2) {
