@@ -11,7 +11,7 @@ int main()
     SetTargetFPS(60);
     
 
-    Menu menu{ImageCopy(screen_main_menu), ImageCopy(screen_loading), ImageCopy(growing_vine), ImageCopy(mana_bloc), ImageCopy(get_mana_bloc), ImageCopy(reload_mana_bloc), ImageCopy(reconstitution_mana_bloc), ImageCopy(textures_plateformes), 1};
+    Menu menu{ImageCopy(screen_main_menu), ImageCopy(screen_loading), ImageCopy(growing_vine), ImageCopy(mana_bloc), ImageCopy(get_mana_bloc), ImageCopy(reload_mana_bloc), ImageCopy(reconstitution_mana_bloc), ImageCopy(textures_plateformes), ImageCopy(end_level), 1};
     PlayMusicStream(mainMusic);
     while (!WindowShouldClose())
     {
